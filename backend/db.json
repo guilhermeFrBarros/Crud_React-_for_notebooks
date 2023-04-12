@@ -1,11 +1,11 @@
 {
-    "users": [{
+    "Products": [{
         "id": 1,
-        "name": "Arthur Oliveira2",
-        "email": "aoliveira@gmail.com.br"
+        "product": "Notebook",
+        "name": "Legion 5i"
     }, {
         "id": 2,
-        "name": "Maria Julia da Silva",
-        "email": "mjds@empresa.com"
+        "Product": "Mini Pc",
+        "name": "Belink Mini PC Ryzen 7"
     }]
 }
