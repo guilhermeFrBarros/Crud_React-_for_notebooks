@@ -5,10 +5,10 @@ export default props =>
     <aside className="menu-area">
         {/*Refatorar */}
         <nav className="menu">
-            <a href="#/">
+            <a href="/">
                 <i className="fa fa-home" ></i> Início
             </a>
-            <a href="#/users">
+            <a href="/notebooks">
                 <i className="fa fa-laptop" aria-hidden="true"></i> Notebooks
             </a>
         </nav>
