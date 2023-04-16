@@ -1,11 +1,11 @@
 {
-    "Products": [{
+    "products": [{
         "id": 1,
-        "product": "Notebook",
-        "name": "Legion 5i"
+        "name": "Legion 5i",
+        "category": "Notebook"
     }, {
         "id": 2,
-        "Product": "Mini Pc",
-        "name": "Belink Mini PC Ryzen 7"
+        "name": "Belink Mini PC Ryzen 7",
+        "category": "Mini Pc"
     }]
 }
