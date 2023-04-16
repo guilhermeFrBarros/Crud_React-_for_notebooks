@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw; 
+    height: 100vh;
+    background-color: #1A2F3A;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    width: 30%;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 10px 10px 10px black;
+}
+
+.header {
+    padding-left: 25px;
+    padding-top: 25px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Courier New';
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    font-family: 'Courier New';
+    font-size: 1.4rem;
+}
+
+.pass {
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    width: 80%;
+}
+
+.email {
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    width: 80%;
+}
+
+p {
+    padding-bottom: 10px;
+}
+
+input {
+    font-size: 1.2rem;
+    padding: 10px;
+    outline: none;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    border-radius: 5px;
+    font-family: 'Courier New';
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: rgba(0, 255, 0, 0.9);
+    padding: 12px;
+    width: 30%;
+    margin-top: 100px;
+    transition: 300ms ease-in-out;
+    box-shadow: 0px 0px 5px black;
+}
+
+.button:hover {
+    box-shadow: 0px 0px 15px black;
+    cursor: pointer;
+    background-color: rgba(0, 255, 0, 1);
+    transition: 0.3s ease-in-out;
+    transform: scale(1.1);
+}
