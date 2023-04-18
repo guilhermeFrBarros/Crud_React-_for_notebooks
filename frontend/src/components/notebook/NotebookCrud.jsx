@@ -30,7 +30,10 @@ const NotebookCrud = () => {
             .then(resp => {
                 const list = getUpadateList(resp.data);
                 setState( prevState => ({...prevState, product: initialState.product, list}))
-            });
+            })
+            .catch (error => {
+                console.error(error);
+            })
     }
 
     const getUpadateList = (product) => {
