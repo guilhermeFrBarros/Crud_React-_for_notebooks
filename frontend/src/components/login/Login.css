@@ -15,17 +15,29 @@
 .form {
     display: flex;
     flex-direction: column;
-    height: 60%;
+    height: 75vh;
     width: 30%;
     border-radius: 10px;
-    background-color: #FFFFFF;
+    background-color: #333333;
     box-shadow: 10px 10px 10px black;
+    color: #FFF;
+}
+
+@media (max-width: 1366px) {
+    .form {
+        height: 80vh;
+    }
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
     padding-left: 25px;
-    padding-top: 25px;
-    font-size: 1.8rem;
+    padding-top: 20px;
+    font-size: 1.8vw;;
     font-weight: bold;
     font-family: 'Courier New';
 }
@@ -36,20 +48,20 @@
     align-items: center;
     font-weight: bold;
     font-family: 'Courier New';
-    font-size: 1.4rem;
+    font-size: 1.4vw;
 }
 
 .pass {
     display: flex;
     flex-direction: column;
-    padding-top: 25px;
+    padding-top: 20px;
     width: 80%;
 }
 
 .email {
     display: flex;
     flex-direction: column;
-    padding-top: 25px;
+    padding-top: 20px;
     width: 80%;
 }
 
@@ -58,31 +70,93 @@ p {
 }
 
 input {
-    font-size: 1.2rem;
+    font-size: 1.4vw;;
     padding: 10px;
     outline: none;
 }
 
-.button {
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 40vh;
+}
+
+.button-login {
     display: flex;
     justify-content: center;
     align-self: center;
     border-radius: 5px;
     font-family: 'Courier New';
-    font-size: 1.4rem;
+    font-size: 1.8vw;
     font-weight: bold;
-    background-color: rgba(0, 255, 0, 0.9);
-    padding: 12px;
-    width: 30%;
-    margin-top: 100px;
+    background-color: rgba(35, 142, 35, 0.9);
+    padding: 10px;
+    width: 45%;
     transition: 300ms ease-in-out;
     box-shadow: 0px 0px 5px black;
 }
 
-.button:hover {
+.button-register {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    border-radius: 5px;
+    font-family: 'Courier New';
+    font-size: 1.8vw;
+    font-weight: bold;
+    background-color: rgb(14, 110, 41);
+    padding: 10px;
+    width: 45%;
+    transition: 300ms ease-in-out;
+    box-shadow: 0px 0px 5px black;
+}
+
+.button-login:hover {
     box-shadow: 0px 0px 15px black;
     cursor: pointer;
-    background-color: rgba(0, 255, 0, 1);
+    background-color: rgb(7, 105, 7);
+    transition: 0.3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.button-register:hover {
+    box-shadow: 0px 0px 15px black;
+    cursor: pointer;
+    background-color: rgb(17, 145, 17);
+    transition: 0.3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.button-container-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 15vh;
+    margin-top: 30px;
+}
+
+.button-register-register {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    border-radius: 5px;
+    font-family: 'Courier New';
+    font-size: 1.8vw;
+    font-weight: bold;
+    background-color: rgb(77, 109, 235);
+    padding: 10px;
+    width: 45%;
+    transition: 300ms ease-in-out;
+    box-shadow: 0px 0px 5px black;
+}
+
+.button-register-register:hover {
+    box-shadow: 0px 0px 15px black;
+    cursor: pointer;
+    background-color: rgb(55, 97, 237);
     transition: 0.3s ease-in-out;
     transform: scale(1.1);
 }
