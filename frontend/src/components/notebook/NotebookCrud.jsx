@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Main from "../template/MainComp";
 import axios from "axios";
 
@@ -17,6 +17,12 @@ const initialState  = {
 const NotebookCrud = () => {
     
     const [state, setState] = useState(initialState);
+
+    useEffect(  () => {
+        axios(baseUrl).then(resp => {
+            setState( prevState => ({...prevState, list:resp.data }) )
+        });
+    }, []);
     
     const clear = () => {
         setState( prevState => ({...prevState, product: initialState.product }));
@@ -36,21 +42,23 @@ const NotebookCrud = () => {
             })
     }
 
-    const getUpadateList = (product) => {
+    const getUpadateList = (product) => {                                       // atualiza e retorna a lists de products
+        console.log(product)
         const list = state.list.filter(p => p.id !== product.id)                // filter ja gera outra lista então eu não precisso clonar do state
-        list.unshift(product);                                                  // estou removendo o produto com da lista e mandando ele para  primeira posição
+        list.unshift(product);                                                  // estou removendo o produto da lista e mandando ele para  primeira posição
         return list;
     }
 
     
     
-    const updateField = (event) => {
+    const updateField = (event) => {                                            // Atualiza os campos
         const product = {...state.product};
         product[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
-        setState( prevState => ({...prevState, product}));
+        setState( prevState => ({...prevState, product}));                      // event.target.value;  é o do event não o que esta na tag
     }
 
     const renderForm = () => {
+        
         return (
             <div className="form">
                 <div className="row">
@@ -58,7 +66,7 @@ const NotebookCrud = () => {
                         <div className="form-group">
                             <label >Nome</label>
                             < input type="text" className="form-control"
-                                name="name" value={state.product.name}
+                                name="name" value={state.product.name}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.product.name  */
                                 onChange={e => updateField(e)}
                                 placeholder="Digite o nome..."  />
                         </div>
@@ -93,8 +101,9 @@ const NotebookCrud = () => {
             </div>
         )
     }
- 
+        
     return (
+        
         <Main {...headerProps}>
             {renderForm()}
         </Main>
