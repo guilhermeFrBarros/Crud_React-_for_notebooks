@@ -101,11 +101,64 @@ const NotebookCrud = () => {
             </div>
         )
     }
-        
+
+    const load = (product) => {                        // serve para atulizar o estado da aplicação
+        setState(prevState => ({...prevState, product}));
+    }
+
+    const remove =  product => {
+        axios.delete(`${baseUrl}/${product.id}`)
+            .then( resp => {
+                const list = state.list.filter(p => p.id !== product.id) ;
+                setState(prevState => ({...prevState, list}));
+            })
+    } 
+
+    function renderTable() {
+        return (
+            <table className="table mt-4">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {renderRows()}
+                </tbody>
+            </table>
+        )
+    }
+
+    const renderRows = () => {
+        return state.list.map ( (product) => {
+            return (
+                <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>
+                        <button className="btn btn-warning"
+                            onClick={() => load(product)}>
+                            <i className="fa fa-pencil"></i>
+                        </button>
+                        <button className="btn btn-danger ml-2"
+                            onClick={() => remove(product)}>
+                            <i className="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
     return (
         
         <Main {...headerProps}>
             {renderForm()}
+            {renderTable()}
         </Main>
     );
 };
