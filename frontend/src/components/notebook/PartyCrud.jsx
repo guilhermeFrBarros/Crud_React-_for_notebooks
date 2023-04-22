@@ -8,13 +8,13 @@ const headerProps = {
     subtitle: "Cadastro de Notebooks: Incluir, Listar, Alterar e Escluir"
 }
 
-const baseUrl = 'http://localhost:3001/products';
+const baseUrl = 'http://54.207.60.35:3000/api/parties';
 const initialState  = {
-    product: { name:"", category: ""},              //Isso se refere ao formulario
+    party: { title:"", author: "", description: "", budget: ""},              //Isso se refere ao formulario
     list:[]
 }
 
-const NotebookCrud = () => {
+const PartyCrud = () => {
     
     const [state, setState] = useState(initialState);
 
@@ -25,36 +25,36 @@ const NotebookCrud = () => {
     }, []);
     
     const clear = () => {
-        setState( prevState => ({...prevState, product: initialState.product }));
+        setState( prevState => ({...prevState, party: initialState.party }));
     }
 
     const save = () => {
-        const product = state.product;                                                  // posso passar a referencia sem clonar, pois vou apenas usar e não alteraro  
-        const method = product.id ? 'put' : 'post';                                    //  se id existir faça um put, se não faça um post
-        const url =  product.id ? `${baseUrl}/${product.id}` : baseUrl;
-        axios[method](url, product)
+        const party = state.party;                                                  // posso passar a referencia sem clonar, pois vou apenas usar e não alteraro  
+        const method = party._id ? 'put' : 'post';                                    //  se _id existir faça um put, se não faça um post
+        const url =  party._id ? `${baseUrl}/${party._id}` : baseUrl;
+        axios[method](url, party)
             .then(resp => {
                 const list = getUpadateList(resp.data);
-                setState( prevState => ({...prevState, product: initialState.product, list}))
+                setState( prevState => ({...prevState, party: initialState.party, list}))
             })
             .catch (error => {
                 console.error(error);
             })
     }
 
-    const getUpadateList = (product) => {                                       // atualiza e retorna a lists de products
-        console.log(product)
-        const list = state.list.filter(p => p.id !== product.id)                // filter ja gera outra lista então eu não precisso clonar do state
-        list.unshift(product);                                                  // estou removendo o produto da lista e mandando ele para  primeira posição
+    const getUpadateList = (party) => {                                       // atualiza e retorna a lists de products
+        console.log(party)
+        const list = state.list.filter(p => p._id !== party._id)                // filter ja gera outra lista então eu não precisso clonar do state
+        list.unshift(party);                                                  // estou removendo o produto da lista e mandando ele para  primeira posição
         return list;
     }
 
     
     
     const updateField = (event) => {                                            // Atualiza os campos
-        const product = {...state.product};
-        product[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
-        setState( prevState => ({...prevState, product}));                      // event.target.value;  é o do event não o que esta na tag
+        const party = {...state.party};
+        party[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
+        setState( prevState => ({...prevState, party}));                      // event.target.value;  é o do event não o que esta na tag
     }
 
     const renderForm = () => {
@@ -66,7 +66,7 @@ const NotebookCrud = () => {
                         <div className="form-group">
                             <label >Nome</label>
                             < input type="text" className="form-control"
-                                name="name" value={state.product.name}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.product.name  */
+                                name="name" value={state.party.name}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
                                 onChange={e => updateField(e)}
                                 placeholder="Digite o nome..."  />
                         </div>
@@ -77,7 +77,7 @@ const NotebookCrud = () => {
                             <label>Category</label>
                             <input type="text" className="form-control" 
                                 name="category"
-                                value={state.product.category}
+                                value={state.party.category}
                                 onChange={e => updateField(e)} 
                                 placeholder="Digite a caetgoria..."/>
                         </div>
@@ -102,14 +102,14 @@ const NotebookCrud = () => {
         )
     }
 
-    const load = (product) => {                        // serve para atulizar o estado da aplicação
-        setState(prevState => ({...prevState, product}));
+    const load = (party) => {                        // serve para atulizar o estado da aplicação
+        setState(prevState => ({...prevState, party}));
     }
 
-    const remove =  product => {
-        axios.delete(`${baseUrl}/${product.id}`)
+    const remove =  party => {
+        axios.delete(`${baseUrl}/${party._id}`)
             .then( resp => {
-                const list = state.list.filter(p => p.id !== product.id) ;
+                const list = state.list.filter(p => p._id !== party._id) ;
                 setState(prevState => ({...prevState, list}));
             })
     } 
@@ -119,10 +119,10 @@ const NotebookCrud = () => {
             <table className="table mt-4">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Categoria</th>
-                        <th>Ações</th>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Descrição</th>
+                        <th>Orçamento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,19 +133,20 @@ const NotebookCrud = () => {
     }
 
     const renderRows = () => {
-        return state.list.map ( (product) => {
+        return state.list.map ( (party) => {
             return (
-                <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.category}</td>
+                <tr key={party._id}>
+                    <td>{party.title}</td>
+                    <td>{party.author}</td>
+                    <td>{party.description}</td>
+                    <td>{party.budget}</td>
                     <td>
                         <button className="btn btn-warning"
-                            onClick={() => load(product)}>
+                            onClick={() => load(party)}>
                             <i className="fa fa-pencil"></i>
                         </button>
                         <button className="btn btn-danger ml-2"
-                            onClick={() => remove(product)}>
+                            onClick={() => remove(party)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>
@@ -163,7 +164,7 @@ const NotebookCrud = () => {
     );
 };
 
-export default NotebookCrud;
+export default PartyCrud;
 
 
 
@@ -185,7 +186,7 @@ const headerProps = {
 
 const baseUrl = 'http://localhost:3001/products';
 const initialState  = {
-    product: { name:"", category: ""},              //Isso se refere ao formulario
+    party: { name:"", category: ""},              //Isso se refere ao formulario
     list:[]
 }
 
@@ -199,8 +200,8 @@ const NotebookCrud = () => {
 
     const save = () => {
         const product = state.product;                                    // so posso fazer isso, pois não vou alterar o state, se não era recomendado clonar o product (...state.product), aqui estou pegando a referencia dele
-        const method = product.id ? 'put' : 'post';
-        const url = product.id ? `${baseUrl}/${product.id}` : baseUrl;
+        const method = product._id ? 'put' : 'post';
+        const url = product._id ? `${baseUrl}/${product.id}` : baseUrl;
         axios[method] (url, product)                                        // axios[method] e´similar a uma anotação ponto (como axios.method), mas como é uma string tem de ser conchets[]
             .then( resp => {
                 const list = getUpadateList

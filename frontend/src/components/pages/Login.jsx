@@ -1,7 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import './Login.css';
-import Modal from '../components/Modal';
+import Modal from '../template/Modal';
+import { Link, Route } from 'react-router-dom';
+import InitialPage from './InitialPage';
+
 
 const Login = () => {
 
@@ -15,9 +18,12 @@ const Login = () => {
     const [register, setRegister] = useState(false);
     const [openModal, setOpenModal] = useState(false);
 
+    const [logado, setIsLogado] = useState(false);
+
     async function userLogin() {
-        console.log(email, pass);
-        const response = await fetch('http://localhost:3001/auth/login', {
+        
+        //console.log(email, pass);
+        const response = await fetch('http://54.207.60.35:3000/auth/login', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -28,9 +34,13 @@ const Login = () => {
 
         //setToken(data.token);
         //setMsg(data.msg);
-
+        //console.log(data);
         //console.log(response.status);
-        
+        if(response.status == 200) {
+            console.log('Logado');
+            
+        }
+
     };
 
     function resetFields() {
@@ -50,7 +60,8 @@ const Login = () => {
     */
 
     return (
-        <div className="container">
+
+        <div className="container123">
             <div className="form">
                 {!register &&
                     <div className="login">

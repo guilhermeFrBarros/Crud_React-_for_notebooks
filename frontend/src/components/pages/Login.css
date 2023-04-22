@@ -3,19 +3,20 @@
     box-sizing: border-box;
 }
 
-.container {
+.container123 {
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw; 
+    width: 100vw;
     height: 100vh;
     background-color: #1A2F3A;
 }
 
-.form {
+.container123 .form {
     display: flex;
     flex-direction: column;
-    height: 75vh;
+    height: 85vh;
     width: 30%;
     border-radius: 10px;
     background-color: #333333;
@@ -29,20 +30,21 @@
     }
 }
 
-.login {
+.container123 .login {
     display: flex;
     flex-direction: column;
 }
 
-.header {
+.container123 .header {
     padding-left: 25px;
     padding-top: 20px;
-    font-size: 1.8vw;;
+    font-size: 1.8vw;
+    ;
     font-weight: bold;
     font-family: 'Courier New';
 }
 
-.inputs {
+.container123 .inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,31 +53,31 @@
     font-size: 1.4vw;
 }
 
-.pass {
+.container123 .pass {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
     width: 80%;
 }
 
-.email {
+.container123 .email {
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
     width: 80%;
 }
 
-p {
+.container123 p {
     padding-bottom: 10px;
 }
 
-input {
-    font-size: 1.4vw;;
+.container123 input {
+    font-size: 1.4vw;
+    ;
     padding: 10px;
     outline: none;
 }
 
-.button-container {
+.container123 .button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,7 +85,7 @@ input {
     height: 40vh;
 }
 
-.button-login {
+.container123 .button-login {
     display: flex;
     justify-content: center;
     align-self: center;
@@ -98,7 +100,7 @@ input {
     box-shadow: 0px 0px 5px black;
 }
 
-.button-register {
+.container123 .button-register {
     display: flex;
     justify-content: center;
     align-self: center;
@@ -106,14 +108,14 @@ input {
     font-family: 'Courier New';
     font-size: 1.8vw;
     font-weight: bold;
-    background-color: rgb(14, 110, 41);
+    background-color: rgb(39, 84, 233);
     padding: 10px;
     width: 45%;
     transition: 300ms ease-in-out;
     box-shadow: 0px 0px 5px black;
 }
 
-.button-login:hover {
+.container123 .button-login:hover {
     box-shadow: 0px 0px 15px black;
     cursor: pointer;
     background-color: rgb(7, 105, 7);
@@ -121,15 +123,15 @@ input {
     transform: scale(1.1);
 }
 
-.button-register:hover {
+.container123 .button-register:hover {
     box-shadow: 0px 0px 15px black;
     cursor: pointer;
-    background-color: rgb(17, 145, 17);
+    background-color: rgb(16, 41, 167);
     transition: 0.3s ease-in-out;
     transform: scale(1.1);
 }
 
-.button-container-register {
+.container123 .button-container-register {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,7 +140,7 @@ input {
     margin-top: 30px;
 }
 
-.button-register-register {
+.container123 .button-register-register {
     display: flex;
     justify-content: center;
     align-self: center;
@@ -153,7 +155,7 @@ input {
     box-shadow: 0px 0px 5px black;
 }
 
-.button-register-register:hover {
+.container123 .button-register-register:hover {
     box-shadow: 0px 0px 15px black;
     cursor: pointer;
     background-color: rgb(55, 97, 237);

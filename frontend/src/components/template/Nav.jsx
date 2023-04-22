@@ -6,7 +6,7 @@ export default props =>
     <aside className="menu-area">
         {/*Refatorar */}
         <nav className="menu">
-            <Link to="/">
+            <Link to="/home">
                 <i className="fa fa-home" ></i> Início
             </Link>
             <Link to="/notebooks">
