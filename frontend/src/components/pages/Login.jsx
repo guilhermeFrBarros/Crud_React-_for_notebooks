@@ -1,10 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import './Login.css';
+import React, { useContext, useState, useEffect } from 'react';
 import Modal from '../template/Modal';
-import { Link, Route } from 'react-router-dom';
-import InitialPage from './InitialPage';
-
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
 
@@ -18,10 +15,13 @@ const Login = () => {
     const [register, setRegister] = useState(false);
     const [openModal, setOpenModal] = useState(false);
 
-    const [logado, setIsLogado] = useState(false);
+    const [msgErro, setMsgErro] = useState('');
+    const [erro, setErro] = useState(false);
+
+    const { isLogado, setIsLogado } = useContext(LoginContext);
+    const navigate = useNavigate();
 
     async function userLogin() {
-        
         //console.log(email, pass);
         const response = await fetch('http://54.207.60.35:3000/auth/login', {
             method: 'POST',
@@ -32,15 +32,30 @@ const Login = () => {
         });
         const data = await response.json();
 
+        checkFieldsLogin();
         //setToken(data.token);
         //setMsg(data.msg);
         //console.log(data);
-        //console.log(response.status);
-        if(response.status == 200) {
-            console.log('Logado');
-            
+        if (response.status === 200) {
+            //setIsLogado(true);
+            //navigate("/home");
+        } else {
+            console.log("Erro");
         }
 
+    };
+
+    function checkFieldsLogin() {
+        if(email || pass === '') {
+            setErro(true);
+            setMsgErro("Favor inserir um usuário válido!");
+        }
+    };
+
+    function handleKeyPress(e) {
+        if (e.key === "Enter") {
+            userLogin();
+        }
     };
 
     function resetFields() {
@@ -48,6 +63,8 @@ const Login = () => {
         setPass('');
         setToken('');
         setMsg('');
+        setErro(false);
+        setMsgErro('');
     };
 
     function teste() {
@@ -91,10 +108,11 @@ const Login = () => {
                                     onChange={(e) => setPass(e.target.value)}
                                 />
                             </div>
+                            {erro && <p style={{color: 'red', fontSize: '1.2vw'}}>{msgErro}</p>}
                         </div>
                         <div className="button-container">
                             <div className="button-login" onClick={userLogin}>Entrar</div>
-                            <div className="button-register" onClick={() => setRegister(true)}>Registre-se</div>
+                            <div className="button-register" onClick={() => {setRegister(true); setErro(false)}}>Registre-se</div>
                         </div>
                     </div>
                 }
@@ -140,6 +158,7 @@ const Login = () => {
                         </div>
                         <div className="button-container-register">
                             <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div>
+                            <div className="button-register-back" onClick={() => setRegister(false)}>Voltar</div>
                         </div>
                     </div>
                 }
