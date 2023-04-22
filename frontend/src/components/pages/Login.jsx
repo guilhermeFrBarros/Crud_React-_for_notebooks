@@ -31,13 +31,15 @@ const Login = () => {
             body: JSON.stringify({ email: email, password: pass })
         });
         const data = await response.json();
-
-        checkFieldsLogin();
         //setToken(data.token);
         //setMsg(data.msg);
         //console.log(data);
+
+        checkFieldsLogin();
+
         if (response.status === 200) {
-            //setIsLogado(true);
+            setIsLogado(true);
+            localStorage.setItem('token', data.token);
             //navigate("/home");
         } else {
             console.log("Erro");
