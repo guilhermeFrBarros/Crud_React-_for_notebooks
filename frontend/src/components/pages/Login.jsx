@@ -56,6 +56,30 @@ const Login = () => {
         }
     };
 
+    async function checkFieldsRegister() {
+        if(email === '' || pass === '' || confirmPass === '') {
+            setErro(true);
+            setMsgErro("Favor preencher os campos corretamente!");
+            return;
+        }
+        //setErro(false);
+        const retorno = await createUser();
+        console.log(retorno);
+        
+    };
+
+    async function createUser() {
+        const response = await fetch('http://54.207.60.35:3000/auth/register', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: 'NomeQualquer', email: email, password: pass, confirmPassword: confirmPass })
+        })
+        const data = await response.json();
+        return data.msg;
+    };
+
     function handleKeyPress(e) {
         if (e.key === "Enter") {
             userLogin();
@@ -161,15 +185,17 @@ const Login = () => {
                                     onChange={(e) => setConfirmPass(e.target.value)}
                                 />
                             </div>
+                            {erro && <p style={{color: 'red', fontSize: '1.1vw'}}>{msgErro}</p>}
                         </div>
                         <div className="button-container-register">
-                            <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div>
+                            {/* <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div> */}
+                            <div className="button-register-register" onClick={checkFieldsRegister}>Registrar</div>
                             <div className="button-register-back" onClick={() => setRegister(false)}>Voltar</div>
                         </div>
                     </div>
                 }
             </div>
-            <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} text="Usuário cadastrado com sucesso!" />
+                {/* <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} text="Usuário cadastrado com sucesso!" /> */}
             {/* o texto vai vir do backend */}
         </div>
     );

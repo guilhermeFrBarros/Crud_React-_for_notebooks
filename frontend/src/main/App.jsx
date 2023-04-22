@@ -18,7 +18,7 @@ import { LoginContext } from '../context/LoginContext';
 export default props => {
 
    const { isLogado, setIsLogado } = useContext(LoginContext);
-   localStorage.clear();
+   //localStorage.clear();
    const token = localStorage.getItem('token');
 
    return (
@@ -27,7 +27,7 @@ export default props => {
             <InitialPage />
          </BrowserRouter> */}
          <BrowserRouter>
-            {token && <div className="app">
+            {isLogado && <div className="app">
                <Logo />
                <Nav />
                <MyRoutes />
@@ -37,7 +37,7 @@ export default props => {
             <Routes>
                <Route path="/" element={!isLogado && <Login />} />
                <Route path="/initial" element={<InitialPage />} />
-               <Route path="/notebooks" element={<PartyCrud />} />
+               {/* <Route path="/notebooks" element={<PartyCrud />} /> */}
             </Routes>
          </BrowserRouter>
       </>
