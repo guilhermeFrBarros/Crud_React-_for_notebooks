@@ -77,6 +77,8 @@ const Login = () => {
             body: JSON.stringify({ name: 'NomeQualquer', email: email, password: pass, confirmPassword: confirmPass })
         })
         const data = await response.json();
+
+        
         return data.msg;
     };
 
