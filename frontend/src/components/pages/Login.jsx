@@ -97,9 +97,6 @@ const Login = () => {
         setMsgErro('');
     };
 
-    function teste() {
-        console.log("botao");
-    };
     /*
     useEffect(() => {
         console.log("useEffect");
@@ -144,7 +141,7 @@ const Login = () => {
                         </div>
                         <div className="button-container">
                             <div className="button-login" onClick={userLogin}>Entrar</div>
-                            <div className="button-register" onClick={() => {setRegister(true); setErro(false)}}>Registre-se</div>
+                            <div className="button-register" onClick={() => {setRegister(true); setErro(false); setMsg('')}}>Registre-se</div>
                         </div>
                     </div>
                 }
@@ -192,7 +189,7 @@ const Login = () => {
                         <div className="button-container-register">
                             {/* <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div> */}
                             <div className="button-register-register" onClick={checkFieldsRegister}>Registrar</div>
-                            <div className="button-register-back" onClick={() => setRegister(false)}>Voltar</div>
+                            <div className="button-register-back" onClick={() => {setRegister(false); setErro(false);}}>Voltar</div>
                         </div>
                     </div>
                 }

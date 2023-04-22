@@ -16,7 +16,7 @@
 .container123 .form {
     display: flex;
     flex-direction: column;
-    height: 75vh;
+    height: 80vh;
     width: 30%;
     border-radius: 10px;
     background-color: #333333;
@@ -37,6 +37,7 @@
 
 .container123 p {
     font-size: 1.2rem;
+    
 }
 
 .container123 .header {
@@ -52,13 +53,12 @@
     align-items: center;
     font-weight: bold;
     font-family: 'Courier New';
-    font-size: 1.4vw;
+    font-size: 1.2vw;
 }
 
 .container123 .pass {
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
     width: 80%;
 }
 
@@ -88,7 +88,7 @@
     align-self: center;
     border-radius: 5px;
     font-family: 'Courier New';
-    font-size: 1.8vw;
+    font-size: 1.6vw;
     font-weight: bold;
     background-color: rgba(35, 142, 35, 0.9);
     padding: 10px;
@@ -103,7 +103,7 @@
     align-self: center;
     border-radius: 5px;
     font-family: 'Courier New';
-    font-size: 1.8vw;
+    font-size: 1.6vw;
     font-weight: bold;
     background-color: rgb(39, 84, 233);
     padding: 10px;
@@ -135,7 +135,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    height: 30vh;
+    height: 20vh;
 }
 
 .container123 .button-register-register {
@@ -144,13 +144,14 @@
     align-self: center;
     border-radius: 5px;
     font-family: 'Courier New';
-    font-size: 1.8vw;
+    font-size: 1.6vw;
     font-weight: bold;
     background-color: rgba(35, 142, 35, 0.9);
-    padding: 10px;
+    padding: 5px;
     width: 45%;
     transition: 300ms ease-in-out;
     box-shadow: 0px 0px 5px black;
+    margin-top: 10px;
 }
 
 .container123 .button-register-register:hover {
@@ -167,13 +168,14 @@
     align-self: center;
     border-radius: 5px;
     font-family: 'Courier New';
-    font-size: 1.8vw;
+    font-size: 1.6vw;
     font-weight: bold;
     background-color: rgb(39, 84, 233);
-    padding: 10px;
+    padding: 5px;
     width: 45%;
     transition: 300ms ease-in-out;
     box-shadow: 0px 0px 5px black;
+    margin-top: 10px;
 }
 
 .container123 .button-register-back:hover {
