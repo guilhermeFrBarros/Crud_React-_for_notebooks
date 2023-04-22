@@ -4,8 +4,8 @@ import axios from "axios";
 
 const headerProps = {
     icon:"laptop",
-    title: "Notebooks",
-    subtitle: "Cadastro de Notebooks: Incluir, Listar, Alterar e Escluir"
+    title: "Festas",
+    subtitle: "Cadastro de Festas: Cadastrar, Listar, Alterar e Excluir"
 }
 
 const baseUrl = 'http://54.207.60.35:3000/api/parties';

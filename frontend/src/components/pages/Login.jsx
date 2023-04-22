@@ -3,6 +3,8 @@ import Modal from '../template/Modal';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+import { LoginContext } from '../../context/LoginContext';
+
 const Login = () => {
 
     const [email, setEmail] = useState('');
@@ -97,6 +99,7 @@ const Login = () => {
                                     placeholder="Digite seu email..."
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onKeyUp={handleKeyPress}
                                 />
                             </div>
                             <div className="pass">
@@ -108,9 +111,10 @@ const Login = () => {
                                     placeholder="Digite sua senha..."
                                     value={pass}
                                     onChange={(e) => setPass(e.target.value)}
+                                    onKeyUp={handleKeyPress}
                                 />
                             </div>
-                            {erro && <p style={{color: 'red', fontSize: '1.2vw'}}>{msgErro}</p>}
+                            {erro && <p style={{color: 'red', fontSize: '1.1vw'}}>{msgErro}</p>}
                         </div>
                         <div className="button-container">
                             <div className="button-login" onClick={userLogin}>Entrar</div>

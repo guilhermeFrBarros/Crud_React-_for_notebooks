@@ -6,6 +6,8 @@ export const LoginContextProvider = ({ children }) => {
 
     const [isLogado, setIsLogado] = useState();
 
+    
+
     return (
         <LoginContext.Provider value={{ isLogado, setIsLogado }}>
             {children}

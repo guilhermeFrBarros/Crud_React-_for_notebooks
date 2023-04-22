@@ -8,7 +8,7 @@ const Modal = (props) => {
 
   if (isOpen) {
     return (
-      <div className="container">
+      <div className="container321">
         <div className="modal">
           {text}
           <div className="button-container-modal">
