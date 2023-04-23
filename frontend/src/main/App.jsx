@@ -35,9 +35,9 @@ export default props => {
             </div>
             }
             <Routes>
-               <Route path="/" element={!isLogado && <Login />} />
+               <Route path="/" element={!token && <Login />} />
                <Route path="/initial" element={<InitialPage />} />
-               <Route path="/notebooks" element={<PartyCrud />} />
+               {/* <Route path="/notebooks" element={<PartyCrud />} /> */}
             </Routes>
          </BrowserRouter>
       </>
