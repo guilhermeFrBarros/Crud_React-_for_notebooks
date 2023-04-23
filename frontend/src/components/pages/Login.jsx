@@ -42,7 +42,7 @@ const Login = () => {
         if (response.status === 200) {
             setIsLogado(true);
             localStorage.setItem('token', data.token);
-            //navigate("/home");
+            navigate("/home");
         } else {
             console.log("Erro");
         }
@@ -97,11 +97,11 @@ const Login = () => {
         setMsgErro('');
     };
 
-    /*
+    
     useEffect(() => {
-        console.log("useEffect");
+        
     }, []);
-    */
+    
 
     return (
 
