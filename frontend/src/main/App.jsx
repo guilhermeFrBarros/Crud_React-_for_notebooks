@@ -18,7 +18,7 @@ import { LoginContext } from '../context/LoginContext';
 export default props => {
 
    const { isLogado, setIsLogado } = useContext(LoginContext);
-   localStorage.clear();
+   //localStorage.clear();
    const token = localStorage.getItem('token');
 
    return (
