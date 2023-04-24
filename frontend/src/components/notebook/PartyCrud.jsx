@@ -24,13 +24,13 @@ const PartyCrud = () => {
 
     useEffect(() => {
         // configurando url e o token de acesso
-        axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
+        //axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
 
         axios.defaults.headers.common['Content-Type'] = 'application/json';
         axios.defaults.headers.common['Accept'] = 'application/json';
 
-        axios().then(resp => {
+        axios(baseUrl).then(resp => {
             setState(prevState => ({ ...prevState, list: resp.data }))
         })
             .catch(error => {
@@ -61,10 +61,9 @@ const PartyCrud = () => {
             })
     }
 
-    const getUpadateList = (party) => {                                       // atualiza e retorna a lists de products
-        console.log(party)
-        const list = state.list.filter(p => p._id !== party._id)                // filter ja gera outra lista então eu não precisso clonar do state
-        list.unshift(party);                                                  // estou removendo o produto da lista e mandando ele para  primeira posição
+    const getUpadateList = (party) => {                                                 // atualiza e retorna a lists de products
+        const list = state.list.filter(p => p._id !== party.response._id)               // filter ja gera outra lista então eu não precisso clonar do state
+        list.unshift(party.response);                                                  // estou removendo o produto da lista e mandando ele para  primeira posição
         return list;
     }
 
@@ -81,24 +80,46 @@ const PartyCrud = () => {
         return (
             <div className="form">
                 <div className="row">
-                    <div className="col-12 col-md-6">               {/*Para dispositivos celurares o ocupe as 6 col (culunas)  se for mediao, grande ou extra grande ocupe as seis colunas*/}
+                    <div className="col-12 col-md-6 mb-3">               {/*Para dispositivos celurares o ocupe as 6 col (culunas)  se for mediao, grande ou extra grande ocupe as seis colunas*/}
                         <div className="form-group">
                             <label >Titulo</label>
                             < input type="text" className="form-control"
-                                name="name" value={state.party.name}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
+                                name="title" value={state.party.title}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
                                 onChange={e => updateField(e)}
                                 placeholder="Digite o nome..." />
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-6">
+                    <div className="col-12 col-md-6 mb-3">
                         <div className="form-group">
-                            <label>Author</label>
+                            <label>Autor</label>
                             <input type="text" className="form-control"
-                                name="category"
-                                value={state.party.category}
+                                name="author"
+                                value={state.party.author}
                                 onChange={e => updateField(e)}
-                                placeholder="Digite a caetgoria..." />
+                                placeholder="Digite o author..." />
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6 mb-3">
+                        <div className="form-group">
+                            <label>Descrição</label>
+                            <input type="text" className="form-control"
+                                name="description"
+                                value={state.party.description}
+                                onChange={e => updateField(e)}
+                                placeholder="Digite a Descrição..." />
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6 mb-3">
+                        <div className="form-group">
+                            <label>Orçamento</label>
+                            <input type="text" className="form-control"
+                                name="budget"
+                                value={state.party.budget}
+                                onChange={e => updateField(e)}
+                                placeholder="Digite o Orçamento..." />
                         </div>
                     </div>
 
@@ -132,6 +153,7 @@ const PartyCrud = () => {
                 setState(prevState => ({ ...prevState, list }));
             })
     }
+
 
     function renderTable() {
         return (
