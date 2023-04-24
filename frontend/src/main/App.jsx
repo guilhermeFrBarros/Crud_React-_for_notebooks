@@ -5,12 +5,12 @@ import React, { useState, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import InitialPage from '../components/pages/InitialPage';
 import Login from '../components/pages/Login';
-import PartyCrud from '../components/notebook/PartyCrud';
+
 
 import Logo from '../components/template/Logo';
 import Nav from '../components/template/Nav';
 import Footer from '../components/template/Footer';
-import Home from '../components/home/Home';
+
 import MyRoutes from './MyRoutes';
 
 import { LoginContext } from '../context/LoginContext';

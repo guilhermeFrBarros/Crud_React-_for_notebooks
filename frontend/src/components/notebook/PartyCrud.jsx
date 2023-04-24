@@ -2,42 +2,61 @@ import React, { useState, useEffect } from "react";
 import Main from "../template/MainComp";
 import axios from "axios";
 
+
+
+//import { error } from "jquery";
+
 const headerProps = {
-    icon:"laptop",
+    icon: "laptop",
     title: "Festas",
     subtitle: "Cadastro de Festas: Cadastrar, Listar, Alterar e Excluir"
 }
 
 const baseUrl = 'http://54.207.60.35:3000/api/parties';
-const initialState  = {
-    party: { title:"", author: "", description: "", budget: ""},              //Isso se refere ao formulario
-    list:[]
+const initialState = {
+    party: { title: "", author: "", description: "", budget: "" },              //Isso se refere ao formulario
+    list: []
 }
 
 const PartyCrud = () => {
-    
+
     const [state, setState] = useState(initialState);
 
-    useEffect(  () => {
-        axios(baseUrl).then(resp => {
-            setState( prevState => ({...prevState, list:resp.data }) )
-        });
+    useEffect(() => {
+        // configurando url e o token de acesso
+        axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
+
+        axios.defaults.headers.common['Content-Type'] = 'application/json';
+        axios.defaults.headers.common['Accept'] = 'application/json';
+
+        axios().then(resp => {
+            setState(prevState => ({ ...prevState, list: resp.data }))
+        })
+            .catch(error => {
+                if (error.response.status === 401) {
+                    console.log("Unauthorized");
+                }
+                else {
+                    console.error(error);
+                }
+            })
     }, []);
-    
+
     const clear = () => {
-        setState( prevState => ({...prevState, party: initialState.party }));
+        setState(prevState => ({ ...prevState, party: initialState.party }));
     }
 
     const save = () => {
         const party = state.party;                                                  // posso passar a referencia sem clonar, pois vou apenas usar e não alteraro  
         const method = party._id ? 'put' : 'post';                                    //  se _id existir faça um put, se não faça um post
-        const url =  party._id ? `${baseUrl}/${party._id}` : baseUrl;
+        const url = party._id ? `${baseUrl}/${party._id}` : baseUrl;
         axios[method](url, party)
             .then(resp => {
                 const list = getUpadateList(resp.data);
-                setState( prevState => ({...prevState, party: initialState.party, list}))
+                setState(prevState => ({ ...prevState, party: initialState.party, list }))
             })
-            .catch (error => {
+            .catch(error => {
                 console.error(error);
             })
     }
@@ -49,44 +68,44 @@ const PartyCrud = () => {
         return list;
     }
 
-    
-    
+
+
     const updateField = (event) => {                                            // Atualiza os campos
-        const party = {...state.party};
+        const party = { ...state.party };
         party[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
-        setState( prevState => ({...prevState, party}));                      // event.target.value;  é o do event não o que esta na tag
+        setState(prevState => ({ ...prevState, party }));                      // event.target.value;  é o do event não o que esta na tag
     }
 
     const renderForm = () => {
-        
+
         return (
             <div className="form">
                 <div className="row">
                     <div className="col-12 col-md-6">               {/*Para dispositivos celurares o ocupe as 6 col (culunas)  se for mediao, grande ou extra grande ocupe as seis colunas*/}
                         <div className="form-group">
-                            <label >Nome</label>
+                            <label >Titulo</label>
                             < input type="text" className="form-control"
                                 name="name" value={state.party.name}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
                                 onChange={e => updateField(e)}
-                                placeholder="Digite o nome..."  />
+                                placeholder="Digite o nome..." />
                         </div>
                     </div>
 
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Category</label>
-                            <input type="text" className="form-control" 
+                            <label>Author</label>
+                            <input type="text" className="form-control"
                                 name="category"
                                 value={state.party.category}
-                                onChange={e => updateField(e)} 
-                                placeholder="Digite a caetgoria..."/>
+                                onChange={e => updateField(e)}
+                                placeholder="Digite a caetgoria..." />
                         </div>
                     </div>
 
                     <hr />
                     <div className="row">
                         <div className="col-12 d-flex justify-content-end">                 {/*d-flex = display flex no bootstrat */}
-                            <button className="btn btn-primary" 
+                            <button className="btn btn-primary"
                                 onClick={e => save(e)}>
                                 Salvar
                             </button>
@@ -103,16 +122,16 @@ const PartyCrud = () => {
     }
 
     const load = (party) => {                        // serve para atulizar o estado da aplicação
-        setState(prevState => ({...prevState, party}));
+        setState(prevState => ({ ...prevState, party }));
     }
 
-    const remove =  party => {
+    const remove = party => {
         axios.delete(`${baseUrl}/${party._id}`)
-            .then( resp => {
-                const list = state.list.filter(p => p._id !== party._id) ;
-                setState(prevState => ({...prevState, list}));
+            .then(resp => {
+                const list = state.list.filter(p => p._id !== party._id);
+                setState(prevState => ({ ...prevState, list }));
             })
-    } 
+    }
 
     function renderTable() {
         return (
@@ -133,7 +152,7 @@ const PartyCrud = () => {
     }
 
     const renderRows = () => {
-        return state.list.map ( (party) => {
+        return state.list.map((party) => {
             return (
                 <tr key={party._id}>
                     <td>{party.title}</td>
@@ -156,7 +175,7 @@ const PartyCrud = () => {
     }
 
     return (
-        
+
         <Main {...headerProps}>
             {renderForm()}
             {renderTable()}
