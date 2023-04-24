@@ -106,7 +106,7 @@ const Login = () => {
     return (
 
         <div className="container123">
-            <div className="form">
+            <div className="form1">
                 {!register &&
                     <div className="login">
                         <div className="header">
