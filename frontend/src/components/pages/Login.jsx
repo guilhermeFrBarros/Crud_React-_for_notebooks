@@ -19,6 +19,8 @@ const Login = () => {
 
     const [msgErro, setMsgErro] = useState('');
     const [erro, setErro] = useState(false);
+    const [feeback, setFeedBack] = useState(false);
+    const [msgFeedBack, setMsgFeedBack] = useState('');
 
     const { isLogado, setIsLogado } = useContext(LoginContext);
     const navigate = useNavigate();
@@ -62,9 +64,11 @@ const Login = () => {
             setMsgErro("Favor preencher os campos corretamente!");
             return;
         }
-        //setErro(false);
+        setErro(false);
         const retorno = await createUser();
-        console.log(retorno);
+        setFeedBack(true);
+        setMsgFeedBack(retorno);
+        
         
     };
 
@@ -74,11 +78,9 @@ const Login = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ name: 'NomeQualquer', email: email, password: pass, confirmPassword: confirmPass })
+            body: JSON.stringify({ email: email, password: pass, confirmPassword: confirmPass })
         })
         const data = await response.json();
-
-        
         return data.msg;
     };
 
@@ -95,13 +97,16 @@ const Login = () => {
         setMsg('');
         setErro(false);
         setMsgErro('');
+        setFeedBack(false);
+        setMsgFeedBack('');
+        setConfirmPass('');
     };
 
-    
+    /*
     useEffect(() => {
         
     }, []);
-    
+    */
 
     return (
 
@@ -141,7 +146,7 @@ const Login = () => {
                         </div>
                         <div className="button-container">
                             <div className="button-login" onClick={userLogin}>Entrar</div>
-                            <div className="button-register" onClick={() => {setRegister(true); setErro(false); setMsg('')}}>Registre-se</div>
+                            <div className="button-register" onClick={() => {setRegister(true); setErro(false); resetFields();}}>Registre-se</div>
                         </div>
                     </div>
                 }
@@ -185,11 +190,12 @@ const Login = () => {
                                 />
                             </div>
                             {erro && <p style={{color: 'red', fontSize: '1.1vw'}}>{msgErro}</p>}
+                            {feeback && <p style={{color: 'green', fontSize: '1.1vw'}}>{msgFeedBack}</p>}
                         </div>
                         <div className="button-container-register">
                             {/* <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div> */}
                             <div className="button-register-register" onClick={checkFieldsRegister}>Registrar</div>
-                            <div className="button-register-back" onClick={() => {setRegister(false); setErro(false);}}>Voltar</div>
+                            <div className="button-register-back" onClick={() => {setRegister(false); resetFields();}}>Voltar</div>
                         </div>
                     </div>
                 }
