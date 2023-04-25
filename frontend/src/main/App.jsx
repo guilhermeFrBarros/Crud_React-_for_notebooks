@@ -1,6 +1,6 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 //import 'font-awesome/css/font-awesome.min.css';
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import InitialPage from '../components/pages/InitialPage';
@@ -20,15 +20,11 @@ export default props => {
    const { isLogado, setIsLogado } = useContext(LoginContext);
    //localStorage.clear();
    const token = localStorage.getItem('token');
-   console.log(token)
 
    return (
       <>
-         {/* <BrowserRouter>
-            <InitialPage />
-         </BrowserRouter> */}
          <BrowserRouter>
-            {token && <div className="app">
+            {isLogado && <div className="app">
                <Logo />
                <Nav />
                <MyRoutes />
@@ -36,10 +32,9 @@ export default props => {
             </div>
             }
             <Routes>
-               <Route path="/" element={!token && <Login />} />
+               <Route path="/" element={!isLogado && <Login />} />
                <Route path="/initial" element={<InitialPage />} />
                <Route path="*" element={<Login />} />
-               {/* <Route path="/notebooks" element={<PartyCrud />} /> */}
             </Routes>
          </BrowserRouter>
       </>

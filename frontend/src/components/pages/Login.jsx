@@ -23,7 +23,6 @@ const Login = () => {
     const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
-    console.log("login: " +token);
 
     async function userLogin() {
         //console.log(email, pass);
@@ -41,9 +40,10 @@ const Login = () => {
         if (response.status === 200) {
             setIsLogado(true);
             localStorage.setItem('token', data.token);
+            resetFields();
             navigate("/home");
         } else {
-            console.log("Erro");
+            console.log("ERRO: " + response.status + " " + response.statusText);
         }
 
     };
@@ -66,7 +66,6 @@ const Login = () => {
         setFeedBack(true);
         setMsgFeedBack(retorno);
 
-
     };
 
     async function createUser() {
@@ -78,25 +77,38 @@ const Login = () => {
             body: JSON.stringify({ email: email, password: pass, confirmPassword: confirmPass })
         })
         const data = await response.json();
+        
+        if(response.status === 422) {
+            if(data.msg) {
+                setErro(true);
+                setMsgErro(data.msg);
+                return;
+            } else {
+                setErro(true);
+                setMsgErro(data.msg);
+                resetFields();
+                return;
+            }
+        }
         return data.msg;
     };
 
     function handleKeyPress(e) {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && !register) {
             userLogin();
+        } else if (e.key === "Enter" && register) {
+            checkFieldsRegister();
         }
     };
 
     function resetFields() {
         setEmail('');
         setPass('');
-        setToken('');
-        setMsg('');
         setErro(false);
         setMsgErro('');
+        setConfirmPass('');
         setFeedBack(false);
         setMsgFeedBack('');
-        setConfirmPass('');
     };
 
     /*
@@ -112,7 +124,6 @@ const Login = () => {
                     <div className="form1">
                         {!register &&
                             <div className="login">
-
                                 <div className="header">
                                     <p>Login</p>
                                 </div>
@@ -164,6 +175,7 @@ const Login = () => {
                                             placeholder="Digite seu email..."
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                            onKeyUp={handleKeyPress}
                                         />
                                     </div>
                                     <div className="pass">
@@ -175,6 +187,7 @@ const Login = () => {
                                             placeholder="Digite sua senha..."
                                             value={pass}
                                             onChange={(e) => setPass(e.target.value)}
+                                            onKeyUp={handleKeyPress}
                                         />
                                     </div>
                                     <div className="pass">
@@ -186,6 +199,7 @@ const Login = () => {
                                             placeholder="Digite sua senha..."
                                             value={confirmPass}
                                             onChange={(e) => setConfirmPass(e.target.value)}
+                                            onKeyUp={handleKeyPress}
                                         />
                                     </div>
                                     {erro && <p style={{ color: 'red', fontSize: '1.1vw' }}>{msgErro}</p>}

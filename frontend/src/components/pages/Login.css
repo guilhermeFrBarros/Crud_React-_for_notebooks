@@ -16,7 +16,7 @@
 .container123 .form1 {
     display: flex;
     flex-direction: column;
-    height: 75vh;
+    height: 80vh;
     width: 30%;
     border-radius: 10px;
     background-color: #333333;
@@ -135,7 +135,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    height: 25vh;
+    height: 28vh;
 }
 
 .container123 .button-register-register {
