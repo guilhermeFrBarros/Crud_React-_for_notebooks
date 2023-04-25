@@ -5,9 +5,8 @@ import React from "react";
 
 export default props =>
 <Main icon="home" title="Início"                    /* o icon home veio do font-awonso*/
-    subtitle="Crud de Notebooks">
-    <div className="display-4">Bem Vindo</div>
+    subtitle="CRUD de Festas.">
+    <div className="display-4">Bem Vindo!</div>
     <hr />
-    <p className="mb-0">Um Sistema de Crud Notebooks,
-        Descktop e mini pcs</p>
+    <p className="mb-0">Um sistema para gerenciamento de festas!</p>
 </Main>

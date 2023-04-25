@@ -52,14 +52,14 @@ const Login = () => {
     };
 
     function checkFieldsLogin() {
-        if(email || pass === '') {
+        if (email === '' || pass === '') {
             setErro(true);
             setMsgErro("Favor inserir um usuário válido!");
         }
     };
 
     async function checkFieldsRegister() {
-        if(email === '' || pass === '' || confirmPass === '') {
+        if (email === '' || pass === '' || confirmPass === '') {
             setErro(true);
             setMsgErro("Favor preencher os campos corretamente!");
             return;
@@ -68,8 +68,8 @@ const Login = () => {
         const retorno = await createUser();
         setFeedBack(true);
         setMsgFeedBack(retorno);
-        
-        
+
+
     };
 
     async function createUser() {
@@ -109,100 +109,105 @@ const Login = () => {
     */
 
     return (
+        <div>
+            {token &&
+                <div className="container123">
+                    <div className="form1">
+                        {!register &&
+                            <div className="login">
 
-        <div className="container123">
-            <div className="form1">
-                {!register &&
-                    <div className="login">
-                        <div className="header">
-                            <p>Login</p>
-                        </div>
-                        <div className="inputs">
-                            <div className="email">
-                                <p>E-mail</p>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Digite seu email..."
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    onKeyUp={handleKeyPress}
-                                />
+                                <div className="header">
+                                    <p>Login</p>
+                                </div>
+                                <div className="inputs">
+                                    <div className="email">
+                                        <p>E-mail</p>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Digite seu email..."
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            onKeyUp={handleKeyPress}
+                                        />
+                                    </div>
+                                    <div className="pass">
+                                        <p>Senha</p>
+                                        <input
+                                            type="password"
+                                            id="pass"
+                                            name="pass"
+                                            placeholder="Digite sua senha..."
+                                            value={pass}
+                                            onChange={(e) => setPass(e.target.value)}
+                                            onKeyUp={handleKeyPress}
+                                        />
+                                    </div>
+                                    {erro && <p style={{ color: 'red', fontSize: '1.1vw' }}>{msgErro}</p>}
+                                </div>
+                                <div className="button-container">
+                                    <div className="button-login" onClick={userLogin}>Entrar</div>
+                                    <div className="button-register" onClick={() => { setRegister(true); setErro(false); resetFields(); }}>Registre-se</div>
+                                </div>
                             </div>
-                            <div className="pass">
-                                <p>Senha</p>
-                                <input
-                                    type="password"
-                                    id="pass"
-                                    name="pass"
-                                    placeholder="Digite sua senha..."
-                                    value={pass}
-                                    onChange={(e) => setPass(e.target.value)}
-                                    onKeyUp={handleKeyPress}
-                                />
+                        }
+                        {register &&
+                            <div className="login">
+                                <div className="header">
+                                    <p>Login</p>
+                                </div>
+                                <div className="inputs">
+                                    <div className="email">
+                                        <p>E-mail</p>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Digite seu email..."
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="pass">
+                                        <p>Senha</p>
+                                        <input
+                                            type="password"
+                                            id="pass"
+                                            name="pass"
+                                            placeholder="Digite sua senha..."
+                                            value={pass}
+                                            onChange={(e) => setPass(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="pass">
+                                        <p>Confirme sua senha</p>
+                                        <input
+                                            type="password"
+                                            id="pass"
+                                            name="pass"
+                                            placeholder="Digite sua senha..."
+                                            value={confirmPass}
+                                            onChange={(e) => setConfirmPass(e.target.value)}
+                                        />
+                                    </div>
+                                    {erro && <p style={{ color: 'red', fontSize: '1.1vw' }}>{msgErro}</p>}
+                                    {feeback && <p style={{ color: 'green', fontSize: '1.1vw' }}>{msgFeedBack}</p>}
+                                </div>
+                                <div className="button-container-register">
+                                    {/* <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div> */}
+                                    <div className="button-register-register" onClick={checkFieldsRegister}>Registrar</div>
+                                    <div className="button-register-back" onClick={() => { setRegister(false); resetFields(); }}>Voltar</div>
+                                </div>
                             </div>
-                            {erro && <p style={{color: 'red', fontSize: '1.1vw'}}>{msgErro}</p>}
-                        </div>
-                        <div className="button-container">
-                            <div className="button-login" onClick={userLogin}>Entrar</div>
-                            <div className="button-register" onClick={() => {setRegister(true); setErro(false); resetFields();}}>Registre-se</div>
-                        </div>
+                        }
                     </div>
-                }
-                {register &&
-                    <div className="login">
-                        <div className="header">
-                            <p>Login</p>
-                        </div>
-                        <div className="inputs">
-                            <div className="email">
-                                <p>E-mail</p>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Digite seu email..."
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </div>
-                            <div className="pass">
-                                <p>Senha</p>
-                                <input
-                                    type="password"
-                                    id="pass"
-                                    name="pass"
-                                    placeholder="Digite sua senha..."
-                                    value={pass}
-                                    onChange={(e) => setPass(e.target.value)}
-                                />
-                            </div>
-                            <div className="pass">
-                                <p>Confirme sua senha</p>
-                                <input
-                                    type="password"
-                                    id="pass"
-                                    name="pass"
-                                    placeholder="Digite sua senha..."
-                                    value={confirmPass}
-                                    onChange={(e) => setConfirmPass(e.target.value)}
-                                />
-                            </div>
-                            {erro && <p style={{color: 'red', fontSize: '1.1vw'}}>{msgErro}</p>}
-                            {feeback && <p style={{color: 'green', fontSize: '1.1vw'}}>{msgFeedBack}</p>}
-                        </div>
-                        <div className="button-container-register">
-                            {/* <div className="button-register-register" onClick={() => setOpenModal(true)}>Registrar</div> */}
-                            <div className="button-register-register" onClick={checkFieldsRegister}>Registrar</div>
-                            <div className="button-register-back" onClick={() => {setRegister(false); resetFields();}}>Voltar</div>
-                        </div>
-                    </div>
-                }
-            </div>
-                {/* <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} text="Usuário cadastrado com sucesso!" /> */}
-            {/* o texto vai vir do backend */}
+                    {/* <Modal isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} text="Usuário cadastrado com sucesso!" /> */}
+                    {/* o texto vai vir do backend */}
+                </div>
+            }
         </div>
+
     );
 };
 

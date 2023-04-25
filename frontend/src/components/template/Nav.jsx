@@ -9,8 +9,8 @@ export default props =>
             <Link to="/home">
                 <i className="fa fa-home" ></i> Início
             </Link>
-            <Link to="/notebooks">
-                <i className="fa fa-laptop" aria-hidden="true"></i> Notebooks
+            <Link to="/festas">
+                <i className="fa fa-laptop" aria-hidden="true"></i> Festas
             </Link>
         </nav>
     </aside>
