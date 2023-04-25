@@ -11,7 +11,7 @@ export default props => (
         <Routes>
             <Route path="/home" element={<Home />} />           {/*{exact} essa propriedade chamada exact serve, para so navegar, para o home quando o path for apenas barra*/}
             <Route path="/festas" element={<PartyCrud />} />
-            {/* <Route path="*" element={<Home />} /> */}
+            <Route path="*" element={<Home />} />
         </Routes>
     </>
 
