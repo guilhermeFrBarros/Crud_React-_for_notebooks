@@ -7,7 +7,7 @@ export default props =>
         {/*Refatorar */}
         <nav className="menu">
             <Link to="/home">
-                <i className="fa fa-home" ></i> Início
+                <i class="fa fa-home" ></i> Início
             </Link>
             <Link to="/festas">
                 <i className="fa fa-laptop" aria-hidden="true"></i> Festas
