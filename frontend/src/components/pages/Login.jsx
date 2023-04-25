@@ -11,9 +11,6 @@ const Login = () => {
     const [pass, setPass] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
 
-    const [token, setToken] = useState('');
-    const [msg, setMsg] = useState('');
-
     const [register, setRegister] = useState(false);
     const [openModal, setOpenModal] = useState(false);
 
@@ -25,6 +22,9 @@ const Login = () => {
     const { isLogado, setIsLogado } = useContext(LoginContext);
     const navigate = useNavigate();
 
+    const token = localStorage.getItem('token');
+    console.log("login: " +token);
+
     async function userLogin() {
         //console.log(email, pass);
         const response = await fetch('http://54.207.60.35:3000/auth/login', {
@@ -35,9 +35,6 @@ const Login = () => {
             body: JSON.stringify({ email: email, password: pass })
         });
         const data = await response.json();
-        //setToken(data.token);
-        //setMsg(data.msg);
-        //console.log(data);
 
         checkFieldsLogin();
 
@@ -110,7 +107,7 @@ const Login = () => {
 
     return (
         <div>
-            {token &&
+            {!token &&
                 <div className="container123">
                     <div className="form1">
                         {!register &&

@@ -20,6 +20,7 @@ export default props => {
    const { isLogado, setIsLogado } = useContext(LoginContext);
    //localStorage.clear();
    const token = localStorage.getItem('token');
+   console.log(token)
 
    return (
       <>
