@@ -44,6 +44,8 @@ const Login = () => {
             navigate("/home");
         } else {
             console.log("ERRO: " + response.status + " " + response.statusText);
+            setErro(true);
+            setMsgErro("Favor inserir um usuário válido!");
         }
 
     };

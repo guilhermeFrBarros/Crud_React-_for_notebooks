@@ -21,6 +21,8 @@ const initialState = {
 const PartyCrud = () => {
 
     const [state, setState] = useState(initialState);
+    const [aux, setAux] = useState();
+    const [busca, setBusca] = useState('');
 
     useEffect(() => {
         // configurando url e o token de acesso
@@ -31,7 +33,8 @@ const PartyCrud = () => {
         axios.defaults.headers.common['Accept'] = 'application/json';
 
         axios(baseUrl).then(resp => {
-            setState(prevState => ({ ...prevState, list: resp.data }))
+            setState(prevState => ({ ...prevState, list: resp.data }));
+            setAux((resp.data));
         })
             .catch(error => {
                 if (error.response.status === 401) {
@@ -67,12 +70,47 @@ const PartyCrud = () => {
         return list;
     }
 
-
-
     const updateField = (event) => {                                            // Atualiza os campos
         const party = { ...state.party };
         party[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
         setState(prevState => ({ ...prevState, party }));                      // event.target.value;  é o do event não o que esta na tag
+    }
+
+    const search = () => {
+        const lowerBusca = busca.toLowerCase();
+        const list = state.list.map((i) => i);
+        const item = list.filter((item) => item.title.toLowerCase().includes(lowerBusca));
+
+        setState(prevState => ({ ...prevState, list: item}));
+    };
+
+    const limpar = () => {
+        setState(prevState => ({ ...prevState, list: aux}));
+        setBusca('');
+    }
+
+    const searchInput = () => {
+
+        return (
+            <div className="col-12 col-md-6 mb-3">               {/*Para dispositivos celurares o ocupe as 6 col (culunas)  se for mediao, grande ou extra grande ocupe as seis colunas*/}
+                <div className="form-group">
+                    <label>Busca</label>
+                    < input type="text" className="form-control"
+                        name="title" value={busca}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
+                        onChange={(e) => setBusca(e.target.value)}
+                        placeholder="Digite o nome para buscar..."
+                    />
+                </div>
+                <button className="btn btn-primary mt-2"
+                    onClick={search}>
+                    Buscar
+                </button>
+                <button className="btn btn-primary mt-2 btn-danger"
+                    onClick={limpar}>
+                    Limpar
+                </button>
+            </div>
+        );
     }
 
     const renderForm = () => {
@@ -82,7 +120,7 @@ const PartyCrud = () => {
                 <div className="row">
                     <div className="col-12 col-md-6 mb-3">               {/*Para dispositivos celurares o ocupe as 6 col (culunas)  se for mediao, grande ou extra grande ocupe as seis colunas*/}
                         <div className="form-group">
-                            <label >Titulo</label>
+                            <label >Título</label>
                             < input type="text" className="form-control"
                                 name="title" value={state.party.title}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
                                 onChange={e => updateField(e)}
@@ -131,7 +169,7 @@ const PartyCrud = () => {
                                 Salvar
                             </button>
 
-                            <button className="btn btn-secundary ml-2"
+                            <button className="btn btn-secundary ml-2 btn-danger"
                                 onClick={e => clear(e)}>
                                 Cancelar
                             </button>
@@ -200,6 +238,7 @@ const PartyCrud = () => {
 
         <Main {...headerProps}>
             {renderForm()}
+            {searchInput()}
             {renderTable()}
         </Main>
     );
