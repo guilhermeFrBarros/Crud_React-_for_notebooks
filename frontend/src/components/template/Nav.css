@@ -5,7 +5,7 @@ aside.menu-area {
         2px 0 15px 0 rgba(0, 0, 0, 0.09);
 }
 
-.menu a {
+.menu a  {
     display: block;             /* O block serve para forçar cada link na propria linha */
     text-decoration: none;
     padding: 15px;
@@ -16,5 +16,33 @@ aside.menu-area {
 
 .menu a:hover {
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
+
+}
+
+#festa {
+    display: flex;
+    justify-content: baseline;
+}
+
+.menu img {
+    color: #FFF;
+    width: 18px;
+    height: 20px;
+    margin-bottom: 6px;
+    margin-right: 4px;
+    filter: invert(100%) sepia(0%) saturate(4414%) hue-rotate(196deg) brightness(103%) contrast(106%);
+}
+
+.menu div  {
+    display: block;             /* O block serve para forçar cada link na propria linha */
+    text-decoration: none;
+    padding: 15px;
+    font-size: 1.1em;
+    color: #FFF;
+}
+
+.menu div:hover {
+    background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
+    cursor: pointer;
 
 }

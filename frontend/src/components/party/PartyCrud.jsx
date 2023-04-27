@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Main from "../template/MainComp";
-import axios from "axios";
-
+//import axios from "axios";
+import axios from "axios"
 
 
 //import { error } from "jquery";
 
 const headerProps = {
-    icon: "laptop",
+    icon: "glass",
     title: "Festas",
     subtitle: "Cadastro de Festas: Cadastrar, Listar, Alterar e Excluir"
 }
@@ -26,14 +26,14 @@ const PartyCrud = () => {
 
     useEffect(() => {
         // configurando url e o token de acesso
-        //axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
+        axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
 
         axios.defaults.headers.common['Content-Type'] = 'application/json';
         axios.defaults.headers.common['Accept'] = 'application/json';
 
         axios(baseUrl).then(resp => {
-            setState(prevState => ({ ...prevState, list: resp.data }));
+            setState(prevState => ({ ...prevState, list: resp.data })); 
             setAux((resp.data));
         })
             .catch(error => {

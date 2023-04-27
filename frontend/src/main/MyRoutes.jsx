@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "../components/home/Home";
 import PartyCrud from "../components/party/PartyCrud";
-import Login from "../components/pages/Login";
-import InitialPage from "../components/pages/InitialPage";
+
 
 export default props => (
     <>
