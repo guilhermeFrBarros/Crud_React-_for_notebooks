@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Main from "../template/MainComp";
+import Erro_component from "../template/erro_component";
+import Msg_sucessful from "../template/Msg_sucessful";
 //import axios from "axios";
 import axios from "axios"
 
@@ -33,7 +35,7 @@ const PartyCrud = () => {
         axios.defaults.headers.common['Accept'] = 'application/json';
 
         axios(baseUrl).then(resp => {
-            setState(prevState => ({ ...prevState, list: resp.data })); 
+            setState(prevState => ({ ...prevState, list: resp.data }));
             setAux((resp.data));
         })
             .catch(error => {
@@ -51,6 +53,13 @@ const PartyCrud = () => {
     }
 
     const save = () => {
+
+        if (state.party.author === '' || state.party.title === ''
+            || state.party.description === '' || state.party.budget === '')
+        {
+
+        }
+
         const party = state.party;                                                  // posso passar a referencia sem clonar, pois vou apenas usar e não alteraro  
         const method = party._id ? 'put' : 'post';                                    //  se _id existir faça um put, se não faça um post
         const url = party._id ? `${baseUrl}/${party._id}` : baseUrl;
@@ -81,11 +90,11 @@ const PartyCrud = () => {
         const list = state.list.map((i) => i);
         const item = list.filter((item) => item.title.toLowerCase().includes(lowerBusca));
 
-        setState(prevState => ({ ...prevState, list: item}));
+        setState(prevState => ({ ...prevState, list: item }));
     };
 
     const limpar = () => {
-        setState(prevState => ({ ...prevState, list: aux}));
+        setState(prevState => ({ ...prevState, list: aux }));
         setBusca('');
     }
 
@@ -238,6 +247,8 @@ const PartyCrud = () => {
 
         <Main {...headerProps}>
             {renderForm()}
+            <Erro_component msg="ada" />
+            <Msg_sucessful msg="dad" />
             {searchInput()}
             {renderTable()}
         </Main>
