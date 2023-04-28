@@ -22,6 +22,8 @@ const PartyCrud = () => {
 
     const [state, setState] = useState(initialState);
     const [busca, setBusca] = useState('');
+    const [erro, setErro] = useState(false);
+    const [msgErro, setMsgErro] = useState('');
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -84,6 +86,14 @@ const PartyCrud = () => {
     };
 
     async function search() {
+        if(busca === '') {
+            setErro(true);
+            setMsgErro('Digite um título para buscar!');
+            return;
+        }
+        setErro(true);
+        setMsgErro('');
+
         const response = await fetch('http://54.207.60.35:3000/api/parties/' + busca, {
             headers: {
                 "Content-type": "application/json",
@@ -97,6 +107,8 @@ const PartyCrud = () => {
 
     const limpar = () => {
         setBusca('');
+        setErro(false);
+        setMsgErro('');
     }
 
     const searchInput = () => {
@@ -111,6 +123,7 @@ const PartyCrud = () => {
                         placeholder="Digite o nome para buscar..."
                         onKeyDown={handleKeyPress}
                     />
+                    {erro && <p style={{color: 'red'}}>{msgErro}</p>}
                 </div>
                 <button className="btn btn-primary mt-2"
                     onClick={search}>
