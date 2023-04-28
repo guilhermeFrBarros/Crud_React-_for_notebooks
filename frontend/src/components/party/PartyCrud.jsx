@@ -21,20 +21,19 @@ const initialState = {
 const PartyCrud = () => {
 
     const [state, setState] = useState(initialState);
-    const [aux, setAux] = useState();
     const [busca, setBusca] = useState('');
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         // configurando url e o token de acesso
         axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
         axios.defaults.headers.common['Content-Type'] = 'application/json';
         axios.defaults.headers.common['Accept'] = 'application/json';
 
         axios(baseUrl).then(resp => {
-            setState(prevState => ({ ...prevState, list: resp.data })); 
-            setAux((resp.data));
+            setState(prevState => ({ ...prevState, list: resp.data }));
         })
             .catch(error => {
                 if (error.response.status === 401) {
@@ -44,7 +43,7 @@ const PartyCrud = () => {
                     console.error(error);
                 }
             })
-    }, []);
+    }, [busca]);
 
     const clear = () => {
         setState(prevState => ({ ...prevState, party: initialState.party }));
@@ -76,16 +75,27 @@ const PartyCrud = () => {
         setState(prevState => ({ ...prevState, party }));                      // event.target.value;  é o do event não o que esta na tag
     }
 
-    const search = () => {
-        const lowerBusca = busca.toLowerCase();
-        const list = state.list.map((i) => i);
-        const item = list.filter((item) => item.title.toLowerCase().includes(lowerBusca));
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter" && busca != '') {
+            search();
+            return;
+        } 
+        return;
+    };
 
-        setState(prevState => ({ ...prevState, list: item}));
+    async function search() {
+        const response = await fetch('http://54.207.60.35:3000/api/parties/' + busca, {
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token
+            }
+        })
+        const data = await response.json();
+
+        setState(prevState => ({ ...prevState, list: data }));
     };
 
     const limpar = () => {
-        setState(prevState => ({ ...prevState, list: aux}));
         setBusca('');
     }
 
@@ -99,6 +109,7 @@ const PartyCrud = () => {
                         name="title" value={busca}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
                         onChange={(e) => setBusca(e.target.value)}
                         placeholder="Digite o nome para buscar..."
+                        onKeyDown={handleKeyPress}
                     />
                 </div>
                 <button className="btn btn-primary mt-2"
