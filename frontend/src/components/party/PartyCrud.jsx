@@ -26,6 +26,8 @@ const PartyCrud = () => {
     const [erro, setErro] = useState(false);
     const [msgErro, setMsgErro] = useState('');
     const token = localStorage.getItem('token');
+    const [erroCampos, setErroCampos] = useState(false);
+    const [msgSucessful, setMsgSucessfull] = useState(false);
 
     useEffect(() => {
         // configurando url e o token de acesso
@@ -50,15 +52,19 @@ const PartyCrud = () => {
 
     const clear = () => {
         setState(prevState => ({ ...prevState, party: initialState.party }));
+        setErroCampos(false);
+        setMsgSucessfull(false);
     }
 
     const save = () => {
 
         if (state.party.author === '' || state.party.title === ''
-            || state.party.description === '' || state.party.budget === '')
-        {
+            || state.party.description === '' || state.party.budget === '') {
 
+            setErroCampos(true);
+            return;
         }
+        setErroCampos(false)
 
         const party = state.party;                                                  // posso passar a referencia sem clonar, pois vou apenas usar e não alteraro  
         const method = party._id ? 'put' : 'post';                                    //  se _id existir faça um put, se não faça um post
@@ -67,6 +73,7 @@ const PartyCrud = () => {
             .then(resp => {
                 const list = getUpadateList(resp.data);
                 setState(prevState => ({ ...prevState, party: initialState.party, list }))
+                setMsgSucessfull(true);
             })
             .catch(error => {
                 console.error(error);
@@ -79,7 +86,8 @@ const PartyCrud = () => {
         return list;
     }
 
-    const updateField = (event) => {                                            // Atualiza os campos
+    const updateField = (event) => {     
+        setMsgSucessfull(false);                                       // Atualiza os campos
         const party = { ...state.party };
         party[event.target.name] = event.target.value;                        // Pegando o nome da tag para passar para state, se o input for name ="name" =  protuct[name]
         setState(prevState => ({ ...prevState, party }));                      // event.target.value;  é o do event não o que esta na tag
@@ -89,17 +97,18 @@ const PartyCrud = () => {
         if (e.key === "Enter" && busca != '') {
             search();
             return;
-        } 
+        }
         return;
     };
 
     async function search() {
-        if(busca === '') {
+
+        if (busca === '') {
             setErro(true);
             setMsgErro('Digite um título para buscar!');
             return;
         }
-        setErro(true);
+        setErro(false);
         setMsgErro('');
 
         const response = await fetch('http://54.207.60.35:3000/api/parties/' + busca, {
@@ -112,13 +121,14 @@ const PartyCrud = () => {
 
         setState(prevState => ({ ...prevState, list: data }));
     };
-    
+
 
     const limpar = () => {
-        
+
         setBusca('');
         setErro(false);
         setMsgErro('');
+        setMsgSucessfull(false);
     }
 
     const searchInput = () => {
@@ -129,11 +139,14 @@ const PartyCrud = () => {
                     <label>Busca</label>
                     < input type="text" className="form-control"
                         name="title" value={busca}     /* Em suma, quando o componente for INICIALMENTE renderizado o valor do input é = ao  state.party.name  */
-                        onChange={(e) => setBusca(e.target.value)}
+                        onChange={(e) =>{
+                            setBusca(e.target.value); 
+                            setMsgSucessfull(false);
+                        } }
                         placeholder="Digite o nome para buscar..."
                         onKeyDown={handleKeyPress}
                     />
-                    {erro && <p style={{color: 'red'}}>{msgErro}</p>}
+                    {erro && <p style={{ color: 'red' }}>{msgErro}</p>}
                 </div>
                 <button className="btn btn-primary mt-2"
                     onClick={search}>
@@ -196,6 +209,8 @@ const PartyCrud = () => {
                     </div>
 
                     <hr />
+                    {msgSucessful && <p className="alert alert-success"><strong>Cadastro realizado com sucesso!</strong></p>}
+                    {erroCampos && <p className="alert alert-danger"><strong>Prencha todos os campos!</strong> </p>}
                     <div className="row">
                         <div className="col-12 d-flex justify-content-end">                 {/*d-flex = display flex no bootstrat */}
                             <button className="btn btn-primary"
