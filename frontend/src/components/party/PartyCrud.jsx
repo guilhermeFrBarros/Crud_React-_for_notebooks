@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Main from "../template/MainComp";
-import Erro_component from "../template/erro_component";
-import Msg_sucessful from "../template/Msg_sucessful";
+
 //import axios from "axios";
 import axios from "axios"
 
@@ -38,10 +37,6 @@ const PartyCrud = () => {
 
         axios(baseUrl).then(resp => {
             setState(prevState => ({ ...prevState, list: resp.data }));
-<<<<<<< HEAD
-            setAux((resp.data));
-=======
->>>>>>> 04bb1878f9d6df6193aabcbe788be7d4c41c091c
         })
             .catch(error => {
                 if (error.response.status === 401) {
@@ -98,13 +93,6 @@ const PartyCrud = () => {
         return;
     };
 
-<<<<<<< HEAD
-        setState(prevState => ({ ...prevState, list: item }));
-    };
-
-    const limpar = () => {
-        setState(prevState => ({ ...prevState, list: aux }));
-=======
     async function search() {
         if(busca === '') {
             setErro(true);
@@ -124,9 +112,10 @@ const PartyCrud = () => {
 
         setState(prevState => ({ ...prevState, list: data }));
     };
+    
 
     const limpar = () => {
->>>>>>> 04bb1878f9d6df6193aabcbe788be7d4c41c091c
+        
         setBusca('');
         setErro(false);
         setMsgErro('');
@@ -283,8 +272,6 @@ const PartyCrud = () => {
 
         <Main {...headerProps}>
             {renderForm()}
-            <Erro_component msg="ada" />
-            <Msg_sucessful msg="dad" />
             {searchInput()}
             {renderTable()}
         </Main>
