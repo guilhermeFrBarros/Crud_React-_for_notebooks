@@ -2,12 +2,15 @@ import './Nav.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import iconParty from "../../assets/icons/party2.png"
+import { useNavigate } from 'react-router-dom';
 
 export default props => {
 
+    const navigate = useNavigate();
 
     const sair = () => {
         localStorage.clear();
+        navigate('/');
         location.reload();
     }
 
