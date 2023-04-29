@@ -13,6 +13,11 @@ const routes = require("./routes/router");
 
 app.use("/api", routes);
 
+// Cors
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    next();
+});
 
 // LOGIN 
 require('dotenv').config();
