@@ -25,11 +25,17 @@
 }
 
 @media (max-width: 1366px) {
-    .form1 {           /* ATENÇÂO: não muda para .form, pois bugara o bootstrap   */
+    .container123 .form1 {           /* ATENÇÂO: não muda para .form, pois bugara o bootstrap   */
         height: 80vh;
     }
 }
 
+@media (max-width: 700px) {
+    .container123 .form1 {           /* ATENÇÂO: não muda para .form, pois bugara o bootstrap   */
+        height: 65%;
+        width: 80vw;
+    }
+}
 .container123 .login {
     display: flex;
     flex-direction: column;

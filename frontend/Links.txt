@@ -1,0 +1,5 @@
+Repositório GitHub: https://github.com/guilhermeFrBarros/Web_fullstack_parte1
+Deploy Front-end: http://webfullstack-1.s3-website-sa-east-1.amazonaws.com/
+Deploy API: http://54.207.60.35:3000/api/parties/
+		http://54.207.60.35:3000/auth/login
+		http://54.207.60.35:3000/auth/register
