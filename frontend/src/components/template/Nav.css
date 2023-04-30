@@ -46,3 +46,29 @@ aside.menu-area {
     cursor: pointer;
 
 }
+
+
+@media(max-width: 768px) {
+    .menu {
+       display: flex;
+       justify-content: flex-start;
+       align-items: center;
+    }
+    
+    .menu a {
+        display: inline;
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .menu div {
+        display: inline;
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .menu {
+        height: 100%;
+        justify-content: space-around;
+    }
+}

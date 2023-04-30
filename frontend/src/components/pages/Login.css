@@ -13,7 +13,7 @@
     background-color: #1A2F3A;
 }
 
-.container123 .form1 {
+.container123 .form1 {   /* ATENÇÂO: não muda para .form, pois bugara o bootstrap   */
     display: flex;
     flex-direction: column;
     height: 80vh;
@@ -25,7 +25,7 @@
 }
 
 @media (max-width: 1366px) {
-    .form1 {
+    .form1 {           /* ATENÇÂO: não muda para .form, pois bugara o bootstrap   */
         height: 80vh;
     }
 }

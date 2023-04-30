@@ -25,7 +25,7 @@ export default props => {
                 <Link to="/festas" id="festa">
                     <img src={iconParty} alt="icone festa" /> Festas
                 </Link>
-                <div onClick={sair} className="menu">
+                <div onClick={sair} >
                     <i className="fa fa-sign-out" ></i> Sair
                 </div>
             </nav>

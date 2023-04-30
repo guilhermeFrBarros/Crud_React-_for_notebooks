@@ -1,6 +1,8 @@
 :root {
     --bg-dark: #1A2F3A;
-    --header-height: 110px;
+    --logo-height: 100px;
+    --header-height: 100px;
+    --menu-top-height:80px;
     --aside-width: 180px;
     --footer-height: 40px;
 
@@ -50,4 +52,51 @@ main.content {
 
 footer.footer {
     grid-area: footer;
+}
+
+@media(max-width: 768px) {
+    .app {
+        grid-template-rows: 
+            var(--header-height)
+            var(--menu-top-height)
+            1fr
+            var(--footer-height);
+        grid-template-columns: 
+            var(--aside-width) ifr;
+        grid-template-areas: 
+            "logo header"
+            "menu menu"
+            "content content"
+            "footer footer";
+    }
+
+   
+}
+
+@media(max-width: 573px) {
+    .app {
+        
+        grid-template-rows: 
+            var(--logo-height)
+            var(--menu-top-height)
+            1fr
+            var(--footer-height);
+        grid-template-columns: 
+            100vw;
+        grid-template-areas: 
+            "logo"
+            "menu"
+            "content"
+            "footer";
+    }
+
+    .table { 
+   
+        font-size: 3vw;
+       
+    }
+
+    .table th, .table td {
+        padding-right: 3px ;
+    }
 }

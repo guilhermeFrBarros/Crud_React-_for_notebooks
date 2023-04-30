@@ -251,6 +251,7 @@ const PartyCrud = () => {
                         <th>Autor</th>
                         <th>Descrição</th>
                         <th>Orçamento</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -268,12 +269,12 @@ const PartyCrud = () => {
                     <td>{party.author}</td>
                     <td>{party.description}</td>
                     <td>{party.budget}</td>
-                    <td>
-                        <button className="btn btn-warning"
+                    <td id="botton-block">
+                        <button className="btn btn-warning "
                             onClick={() => load(party)}>
                             <i className="fa fa-pencil"></i>
                         </button>
-                        <button className="btn btn-danger ml-2"
+                        <button className="btn btn-danger ml-2 "
                             onClick={() => remove(party)}>
                             <i className="fa fa-trash"></i>
                         </button>
