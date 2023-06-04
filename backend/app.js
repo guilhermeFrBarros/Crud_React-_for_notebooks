@@ -10,14 +10,8 @@ const conn = require("./db/conn");
 
 // Routes
 const routes = require("./routes/router");
-
 app.use("/api", routes);
 
-// Cors
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     next();
-// });
 
 // LOGIN 
 require('dotenv').config();
@@ -26,7 +20,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 
 // Registro de Usuário
-app.post('/auth/register', async (req, res) => {
+app.post('/users', async (req, res) => {
 
     const { email, password, confirmPassword } = req.body;
     
@@ -58,7 +52,7 @@ app.post('/auth/register', async (req, res) => {
     // Criando usuário
     const user = new User({
         email,
-        password: hashPass
+        password: hashPass,
     });
 
     try {
@@ -78,10 +72,9 @@ app.post('/auth/register', async (req, res) => {
 });
 
 // Login User
-app.post("/auth/login", async (req, res) => {
+app.post("/session", async (req, res) => {
 
     const { email, password } = req.body;
-    //console.log("Login: " + email, password);
 
     // Validações
     if (!email) {
