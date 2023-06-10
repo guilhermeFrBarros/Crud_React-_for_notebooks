@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const fs = require("fs");
+const https = require('https');
 
 app.use(cors());
 app.use(express.json());
@@ -130,3 +132,9 @@ app.listen(3000, function () {
     conn();
 });
 
+https.createServer({
+    cert: fs.readFileSync('./SSL/code.crt'),
+    key: fs.readFileSync('./SSL/code.key')
+}, app).listen(3001, () => {
+    console.log("======== SERVIDOR HTTPS ONLINE ========")
+});
