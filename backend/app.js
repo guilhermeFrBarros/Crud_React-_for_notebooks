@@ -19,7 +19,7 @@ app.use("/api", routes);
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('./models/User');
+const { User } = require('./models/User');
 
 // Registro de Usuário
 app.post('/users', async (req, res) => {
@@ -77,7 +77,7 @@ app.post('/users', async (req, res) => {
 app.post("/session", async (req, res) => {
 
     const { email, password } = req.body;
-
+    
     // Validações
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
@@ -127,14 +127,15 @@ app.post("/session", async (req, res) => {
     }
 });
 
-app.listen(3000, function () {
-    console.log(" ======== SERVIDOR ONLINE ======== ");
-    conn();
-});
+// app.listen(3000, function () {
+//     console.log(" ======== SERVIDOR ONLINE ======== ");
+//     conn();
+// });
 
 https.createServer({
     cert: fs.readFileSync('./SSL/code.crt'),
     key: fs.readFileSync('./SSL/code.key')
 }, app).listen(3001, () => {
-    console.log("======== SERVIDOR HTTPS ONLINE ========")
+    console.log("======== SERVIDOR HTTPS ONLINE ========");
+    conn();
 });

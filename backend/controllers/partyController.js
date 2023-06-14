@@ -1,5 +1,6 @@
-const { Party } = require("../models/Party");
-
+const { Party } = require('../models/Party');
+const { User } = require('../models/User');
+const mail = require('../mail/index');
 
 const partyController = {
     create: async (req, res) => {
@@ -11,6 +12,11 @@ const partyController = {
                 budget: req.body.budget,
             }
             const response = await Party.create(party);
+
+            const users = await User.find({});
+            console.log('Enviando emails...');
+            mail.sendEmail(users);
+            console.log('Emails enviados!');
 
             res.status(201).json({ response, msg: "Festa criada com sucesso." });
         } catch (error) {
@@ -75,7 +81,7 @@ const partyController = {
             }
 
             const response = await Party.findByIdAndUpdate(id, party, { new: true });
-            
+
             if (!response) {
                 res.status(404).json({ msg: "Festa não encontrada." });
                 return;
