@@ -13,7 +13,7 @@ const headerProps = {
     subtitle: "Cadastro de Festas: Cadastrar, Listar, Alterar e Excluir"
 }
 
-const baseUrl = 'http://54.207.60.35:3000/api/parties';
+const baseUrl = 'https://localhost:3001/api/parties';
 const initialState = {
     party: { title: "", author: "", description: "", budget: "" },              //Isso se refere ao formulario
     list: []

@@ -5,6 +5,8 @@ import './Login.css';
 
 import { LoginContext } from '../../context/LoginContext';
 
+const URL = 'https://localhost:3001';
+
 const Login = () => {
 
     const [email, setEmail] = useState('');
@@ -26,7 +28,7 @@ const Login = () => {
 
     async function userLogin() {
         //console.log(email, pass);
-        const response = await fetch('http://54.207.60.35:3000/auth/login', {
+        const response = await fetch(`${URL}/session`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -71,7 +73,7 @@ const Login = () => {
     };
 
     async function createUser() {
-        const response = await fetch('http://54.207.60.35:3000/auth/register', {
+        const response = await fetch(`${URL}/users`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
