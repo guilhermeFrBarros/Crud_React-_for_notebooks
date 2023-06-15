@@ -26,6 +26,8 @@ const Login = () => {
 
     const token = localStorage.getItem('token');
 
+    console.log('teste');
+
     async function userLogin() {
         //console.log(email, pass);
         const response = await fetch(`${URL}/session`, {
