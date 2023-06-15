@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
 
+
 // Cria a collection
 const User = mongoose.model('User', {
-    name: {
-        type: String,
-        //required: true
-    },
     email: {
         type: String,
         required: true
@@ -16,4 +13,4 @@ const User = mongoose.model('User', {
     }
 });
 
-module.exports = User;
+module.exports = { User };

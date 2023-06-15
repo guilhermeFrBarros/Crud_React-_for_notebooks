@@ -5,6 +5,8 @@ import "./Login.css";
 
 import { LoginContext } from "../../context/LoginContext";
 
+const URL = 'https://localhost:3001';
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -34,7 +36,20 @@ const Login = () => {
     });
     const data = await response.json();
 
+<<<<<<< HEAD
     checkFieldsLogin();
+=======
+    async function userLogin() {
+        //console.log(email, pass);
+        const response = await fetch(`${URL}/session`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email, password: pass })
+        });
+        const data = await response.json();
+>>>>>>> 248243112257a289e7ab68a99d44f24c3ae2bbb4
 
     if (response.status === 200) {
       setIsLogado(true);
@@ -104,6 +119,7 @@ const Login = () => {
     }
   }
 
+<<<<<<< HEAD
   function resetFields() {
     setEmail("");
     setPass("");
@@ -113,6 +129,32 @@ const Login = () => {
     setFeedBack(false);
     setMsgFeedBack("");
   }
+=======
+    async function createUser() {
+        const response = await fetch(`${URL}/users`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email, password: pass, confirmPassword: confirmPass })
+        })
+        const data = await response.json();
+        
+        if(response.status === 422) {
+            if(data.msg) {
+                setErro(true);
+                setMsgErro(data.msg);
+                return;
+            } else {
+                setErro(true);
+                setMsgErro(data.msg);
+                resetFields();
+                return;
+            }
+        }
+        return data.msg;
+    };
+>>>>>>> 248243112257a289e7ab68a99d44f24c3ae2bbb4
 
   /*
     useEffect(() => {

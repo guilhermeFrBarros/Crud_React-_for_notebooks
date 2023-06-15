@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const fs = require("fs");
+const https = require('https');
 
 app.use(cors());
 app.use(express.json());
@@ -10,23 +12,17 @@ const conn = require("./db/conn");
 
 // Routes
 const routes = require("./routes/router");
-
 app.use("/api", routes);
 
-// Cors
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     next();
-// });
 
 // LOGIN 
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('./models/User');
+const { User } = require('./models/User');
 
 // Registro de Usuário
-app.post('/auth/register', async (req, res) => {
+app.post('/users', async (req, res) => {
 
     const { email, password, confirmPassword } = req.body;
     
@@ -58,7 +54,7 @@ app.post('/auth/register', async (req, res) => {
     // Criando usuário
     const user = new User({
         email,
-        password: hashPass
+        password: hashPass,
     });
 
     try {
@@ -78,11 +74,10 @@ app.post('/auth/register', async (req, res) => {
 });
 
 // Login User
-app.post("/auth/login", async (req, res) => {
+app.post("/session", async (req, res) => {
 
     const { email, password } = req.body;
-    //console.log("Login: " + email, password);
-
+    
     // Validações
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
@@ -132,8 +127,15 @@ app.post("/auth/login", async (req, res) => {
     }
 });
 
-app.listen(3000, function () {
-    console.log(" ======== SERVIDOR ONLINE ======== ");
+// app.listen(3000, function () {
+//     console.log(" ======== SERVIDOR ONLINE ======== ");
+//     conn();
+// });
+
+https.createServer({
+    cert: fs.readFileSync('./SSL/code.crt'),
+    key: fs.readFileSync('./SSL/code.key')
+}, app).listen(3001, () => {
+    console.log("======== SERVIDOR HTTPS ONLINE ========");
     conn();
 });
-
