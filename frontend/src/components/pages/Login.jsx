@@ -5,7 +5,7 @@ import './Login.css';
 
 import { LoginContext } from '../../context/LoginContext';
 
-const URL = 'https://localhost:3001';
+const URL = 'http://localhost:3001';
 
 const Login = () => {
 

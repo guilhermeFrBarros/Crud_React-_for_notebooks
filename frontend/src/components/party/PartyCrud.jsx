@@ -13,7 +13,7 @@ const headerProps = {
     subtitle: "Cadastro de Festas: Cadastrar, Listar, Alterar e Excluir"
 }
 
-const baseUrl = 'https://localhost:3001/api/parties';
+const baseUrl = 'http://localhost:3001/api/parties';
 const initialState = {
     party: { title: "", author: "", description: "", budget: "" },              //Isso se refere ao formulario
     list: []
@@ -31,7 +31,7 @@ const PartyCrud = () => {
 
     useEffect(() => {
         // configurando url e o token de acesso
-        axios.defaults.baseURL = "http://54.207.60.35:3000/api/parties"; // sua URL base
+        axios.defaults.baseURL = baseUrl; // sua URL base
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
         axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -111,7 +111,7 @@ const PartyCrud = () => {
         setErro(false);
         setMsgErro('');
 
-        const response = await fetch('http://54.207.60.35:3000/api/parties/' + busca, {
+        const response = await fetch(baseUrl +'/' + busca, {
             headers: {
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + token
