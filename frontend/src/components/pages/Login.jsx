@@ -5,7 +5,7 @@ import './Login.css';
 
 import { LoginContext } from '../../context/LoginContext';
 
-const URL = 'http://localhost:3001';
+const URL = 'https://localhost:3001';
 
 const Login = () => {
 
@@ -27,7 +27,6 @@ const Login = () => {
     const token = localStorage.getItem('token');
 
     async function userLogin() {
-        //console.log(email, pass);
         const response = await fetch(`${URL}/session`, {
             method: 'POST',
             headers: {

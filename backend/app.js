@@ -127,15 +127,17 @@ app.post("/session", async (req, res) => {
     }
 });
 
-app.listen(3001, function () {
-    console.log(" ======== SERVIDOR ONLINE ======== ");
+// app.listen(3001, function () {
+//     console.log(" ======== SERVIDOR ONLINE ======== ");
+//     conn();
+// });
+
+https.createServer({
+    cert: fs.readFileSync('./SSL/code.crt'),
+    key: fs.readFileSync('./SSL/code.key')
+}, app).listen(3001, () => {
+    console.log("======== SERVIDOR HTTPS ONLINE ========");
     conn();
 });
 
-// https.createServer({
-//     cert: fs.readFileSync('./SSL/code.crt'),
-//     key: fs.readFileSync('./SSL/code.key')
-// }, app).listen(3001, () => {
-//     console.log("======== SERVIDOR HTTPS ONLINE ========");
-//     conn();
-// }); 
+console.log('teste');
