@@ -151,15 +151,17 @@ app.post("/session", async (req, res) => {
   }
 });
 
-app.listen(3001, function () {
-  console.log(" ======== SERVIDOR ONLINE ======== ");
-  conn();
+
+app.listen(3000, function () {
+    console.log(" ======== SERVIDOR ONLINE ======== ");
+    conn();
 });
 
 // https.createServer({
-//     cert: fs.readFileSync('./SSL/server.cert'),
-//     key: fs.readFileSync('./SSL/server.key')
-// }, app).listen(3001, () => {
+//     cert: fs.readFileSync('./SSL/certificado.crt'),
+//     key: fs.readFileSync('./SSL/chave_privada.key')
+// }, app).listen(3000, () => {
 //     console.log("======== SERVIDOR HTTPS ONLINE ========");
 //     conn();
 // });
+

@@ -14,10 +14,10 @@ const partyController = {
             const response = await Party.create(party);
 
             const users = await User.find({});
-            console.log('Enviando emails...');
+            
             mail.sendEmail(users);
-            console.log('Emails enviados!');
-
+            
+            console.log("Consultou o banco! POST");
             res.status(201).json({ response, msg: "Festa criada com sucesso." });
         } catch (error) {
             console.log(`Erro: ${error}`);
@@ -27,6 +27,7 @@ const partyController = {
         try {
             const parties = await Party.find();
 
+            console.log("Consultou o banco! GETALL");
             res.json(parties);
         } catch (error) {
             console.log(`Erro: ${error}`);
@@ -48,6 +49,7 @@ const partyController = {
                 return;
             }
 
+            console.log("Consultou o banco! GET BY ID");
             res.json(partie);
         } catch (error) {
             console.log(`Erro: ${error}`);
@@ -65,6 +67,7 @@ const partyController = {
 
             const deletedParty = await Party.findByIdAndDelete(id);
 
+            console.log("Consultou o banco! DELETE");
             res.status(200).json({ deletedParty, msg: "Festa deletada com sucesso." });
         } catch (error) {
             console.log(`Erro: ${error}`);
@@ -87,6 +90,7 @@ const partyController = {
                 return;
             }
 
+            console.log("Consultou o banco! UPDATE");
             res.status(200).json({ response, msg: "Festa atualizada com sucesso." });
         } catch (error) {
             console.log(`Erro: ${error}`);
