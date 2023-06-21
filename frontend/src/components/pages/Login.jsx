@@ -42,6 +42,8 @@ const Login = () => {
         if (response.status === 200) {
             setIsLogado(true);
             localStorage.setItem('token', data.token);
+            localStorage.setItem('email', email);
+
             resetFields();
             navigate("/home");
         } else {
