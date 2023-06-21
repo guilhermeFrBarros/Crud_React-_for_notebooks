@@ -47,6 +47,11 @@ aside.menu-area {
 
 }
 
+.chat i {
+   position: relative;
+   bottom: 1px;
+}
+
 
 @media(max-width: 768px) {
     .menu {

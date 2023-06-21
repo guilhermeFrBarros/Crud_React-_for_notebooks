@@ -1,10 +1,40 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const fs = require("fs");
 const https = require("https");
 
 app.use(cors());
+
+//socket.io http
+const ServerHttpIo = require("socket.io").Server;
+const { createServer } = require("http");
+const httpServer = createServer(app);
+const io = new ServerHttpIo(httpServer, {
+    cors: { origin: "http://localhost:5173" },
+});
+
+const PORT = 3008;
+
+io.on("connection", (socket) => {
+    console.log("Usuario conectadado", socket.id);
+
+    socket.on("disconnect", (reason) => {
+        console.log("Usuario Desconectado", socket.id);
+    });
+
+    socket.on("set_emailUser", (userEmail) => {
+        socket.data.userEmail = userEmail;
+    });
+});
+
+httpServer.listen(PORT, () =>
+    console.log(" ====== Server web socket running  ===")
+);
+
+// ----------
+const fs = require("fs");
+const server = https.createServer(app);
+
 app.use(express.json());
 
 // DB Connection
