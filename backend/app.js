@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const fs = require("fs");
-const https = require('https');
+const https = require("https");
 
 app.use(cors());
 app.use(express.json());
@@ -14,18 +14,16 @@ const conn = require("./db/conn");
 const routes = require("./routes/router");
 app.use("/api", routes);
 
-
-// LOGIN 
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { User } = require('./models/User');
+// LOGIN
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { User } = require("./models/User");
 
 // Registro de Usuário
-app.post('/users', async (req, res) => {
-
+app.post("/users", async (req, res) => {
     const { email, password, confirmPassword } = req.body;
-    
+
     // Validações
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
@@ -58,26 +56,23 @@ app.post('/users', async (req, res) => {
     });
 
     try {
-
         await user.save();
 
         // Status 201 -> Algo foi registrado no banco de dados
         res.status(201).json({ msg: "Usuário criado com sucesso!" });
-
     } catch (error) {
-
         console.log(`Erro: ${error}`);
         // Status 500 -> Erro interno no servidor
-        res.status(500).json({ msg: "Erro no servidor, tente novamente mais tarde!" });
-
+        res.status(500).json({
+            msg: "Erro no servidor, tente novamente mais tarde!",
+        });
     }
 });
 
 // Login User
 app.post("/session", async (req, res) => {
-
     const { email, password } = req.body;
-    
+
     // Validações
     if (!email) {
         return res.status(422).json({ msg: "O email é obrigatório!" });
@@ -103,7 +98,6 @@ app.post("/session", async (req, res) => {
     }
 
     try {
-
         const secret = process.env.SECRET;
 
         const token = jwt.sign(
@@ -116,27 +110,33 @@ app.post("/session", async (req, res) => {
             }
         );
         // Satatus 200 -> Sucesso
-        res.status(200).json({ msg: "Autenticação realizada com sucesso!", token });
-
+        res.status(200).json({
+            msg: "Autenticação realizada com sucesso!",
+            token,
+        });
     } catch (error) {
-
         console.log(`Erro: ${error}`);
         // Status 500 -> Erro interno no servidor
-        res.status(500).json({ msg: "Erro no servidor, tente novamente mais tarde!" });
-
+        res.status(500).json({
+            msg: "Erro no servidor, tente novamente mais tarde!",
+        });
     }
 });
 
-app.listen(3000, function () {
-    console.log(" ======== SERVIDOR ONLINE ======== ");
-    conn();
-});
-
-// https.createServer({
-//     cert: fs.readFileSync('./SSL/certificado.crt'),
-//     key: fs.readFileSync('./SSL/chave_privada.key')
-// }, app).listen(3000, () => {
-//     console.log("======== SERVIDOR HTTPS ONLINE ========");
+// app.listen(3000, () => {
+//     console.log(" ======== SERVIDOR ONLINE ======== ");
 //     conn();
 // });
 
+https
+    .createServer(
+        {
+            cert: fs.readFileSync("./SSL/certificado.crt"),
+            key: fs.readFileSync("./SSL/chave_privada.key"),
+        },
+        app
+    )
+    .listen(3000, () => {
+        console.log("======== SERVIDOR HTTPS ONLINE ========");
+        conn();
+    });

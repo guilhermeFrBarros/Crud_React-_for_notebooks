@@ -1,4 +1,8 @@
 const nodemailer = require('nodemailer');
+const amqp = require('amqplib');
+
+const rabbitMQUrl = 'amqp://rabbitmq';
+const queueName = 'email_queue';
 
 const emailService = {
 
@@ -35,7 +39,7 @@ function separeEmail(users) {
     users.forEach((user) => {
         emails.push(user.email);
     });
-
+    console.log("Emails to send: " + emails);
     return emails;
 }
 
