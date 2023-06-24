@@ -5,7 +5,7 @@ import Main from "../template/MainComp";
 import axios from "axios";
 
 //import { error } from "jquery";
-  
+
 const headerProps = {
     icon: "glass",
     title: "Festas",
@@ -13,6 +13,7 @@ const headerProps = {
 };
 
 const baseUrl = "https://localhost:3000/api/parties";
+
 const initialState = {
     party: { title: "", author: "", description: "", budget: "" }, //Isso se refere ao formulario
     list: [],
@@ -25,6 +26,7 @@ const PartyCrud = () => {
     const [msgErro, setMsgErro] = useState("");
     const token = localStorage.getItem("token");
     const [erroCampos, setErroCampos] = useState(false);
+    const [erroSanitizer, setErroSanitizer] = useState(false);
     const [msgSucessful, setMsgSucessfull] = useState(false);
 
     useEffect(() => {
@@ -52,6 +54,7 @@ const PartyCrud = () => {
         setState((prevState) => ({ ...prevState, party: initialState.party }));
         setErroCampos(false);
         setMsgSucessfull(false);
+        setErroSanitizer(false);
     };
 
     const save = () => {
@@ -62,6 +65,7 @@ const PartyCrud = () => {
             state.party.budget === ""
         ) {
             setErroCampos(true);
+            setErroSanitizer(false);
             return;
         }
         setErroCampos(false);
@@ -77,9 +81,16 @@ const PartyCrud = () => {
                     party: initialState.party,
                     list,
                 }));
+                setErroSanitizer(false);
                 setMsgSucessfull(true);
             })
             .catch((error) => {
+                setErroSanitizer(false);
+                if (error.response.status === 400) {
+                    console.log(error.response.data.msg[0].msg);
+                    setErroSanitizer(true);
+                    setMsgErro(error.response.data.msg[0].msg);
+                }
                 console.error(error);
             });
     };
@@ -242,6 +253,11 @@ const PartyCrud = () => {
                     {erroCampos && (
                         <p className="alert alert-danger">
                             <strong>Prencha todos os campos!</strong>{" "}
+                        </p>
+                    )}
+                    {erroSanitizer && (
+                        <p className="alert alert-danger">
+                            <strong>Campos com valores inválidos</strong>{" "}
                         </p>
                     )}
                     <div className="row">

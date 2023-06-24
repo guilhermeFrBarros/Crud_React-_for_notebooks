@@ -1,4 +1,6 @@
 const { Party } = require("../models/Party");
+const consumer = require("../queue/consumer");
+const amqp = require("amqplib");
 
 const partyController = {
     create: async (req, res) => {
@@ -26,7 +28,6 @@ const partyController = {
         }
     },
     getAll: async (req, res) => {
-        req.sanitize();
         try {
             const parties = await Party.find();
 
@@ -42,7 +43,6 @@ const partyController = {
             // mudar para POST e passar no body: title: {string}, limit: {number}, skip: {number},
 
             const title = req.sanitize(req.params.title);
-            // i = ignore caseSensitive
             const partie = await Party.find({
                 title: { $regex: title, $options: "i" },
             })

@@ -1,13 +1,17 @@
 const express = require("express");
 const cors = require("cors");
-const expressSanitizer = require("express-sanitizer");
-const { body, validationResult } = require("express-validator");
 const morgan = require("morgan");
 const app = express();
-const https = require("https");
 const path = require("path");
+const https = require("https");
 const fs = require("fs");
 const moment = require("moment-timezone");
+const expressSanitizer = require("express-sanitizer");
+const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { User } = require("./models/User");
+require("dotenv").config();
 
 const logsDir = path.join(__dirname, "logs");
 if (!fs.existsSync(logsDir)) {
@@ -19,17 +23,41 @@ const accessLogStream = fs.createWriteStream(
     { flags: "a" }
 );
 
-app.use(cors());
+const httpsOptions = {
+    cert: fs.readFileSync("./SSL/certificado.crt"),
+    key: fs.readFileSync("./SSL/chave_privada.key"),
+};
+const httpsServer = https.createServer(httpsOptions, app);
 
-//socket.io http
+httpsServer.listen(3000, () => {
+    console.log("======== SERVIDOR HTTPS ONLINE ========");
+    conn();
+});
+
+// Sockets
 const ServerHttpIo = require("socket.io").Server;
-const { createServer } = require("http");
-const httpServer = createServer(app);
-const io = new ServerHttpIo(httpServer, {
+const io = new ServerHttpIo(httpsServer, {
     cors: { origin: "http://localhost:5173" },
 });
 
-const PORT = 3008;
+io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+    //console.log(token);
+    if (!token) {
+        return "Token de autenticação não fornecido.";
+    }
+
+    // Verifique e decodifique o token JWT
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+        if (err) {
+            return console.log("Token de autenticação inválido.");
+        }
+
+        // Anexar informações do usuário decodificadas ao objeto de conexão do socket
+        socket.user = decoded;
+        next();
+    });
+});
 
 io.on("connection", (socket) => {
     console.log("Usuario conectadado", socket.id);
@@ -43,11 +71,6 @@ io.on("connection", (socket) => {
     });
 });
 
-httpServer.listen(PORT, () =>
-    console.log(" ====== Server web socket running  ===")
-);
-
-app.use(express.json());
 app.use(expressSanitizer());
 app.use(
     morgan(
@@ -74,18 +97,15 @@ app.use(
     )
 );
 
+app.use(cors());
+app.use(express.json());
+
 // DB Connection
 const conn = require("./db/conn");
 
 // Routes
 const routes = require("./routes/router");
 app.use("/api", routes);
-
-// LOGIN
-require("dotenv").config();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { User } = require("./models/User");
 
 // Registro de Usuário
 app.post(
@@ -212,21 +232,3 @@ app.post("/teste", (req, res, next) => {
 
     res.send({ sanitized: sanitezedString });
 });
-
-// app.listen(3000, () => {
-//     console.log(" ======== SERVIDOR ONLINE ======== ");
-//     conn();
-// });
-
-https
-    .createServer(
-        {
-            cert: fs.readFileSync("./SSL/certificado.crt"),
-            key: fs.readFileSync("./SSL/chave_privada.key"),
-        },
-        app
-    )
-    .listen(3000, () => {
-        console.log("======== SERVIDOR HTTPS ONLINE ========");
-        conn();
-    });
