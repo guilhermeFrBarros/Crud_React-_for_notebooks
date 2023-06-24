@@ -47,18 +47,17 @@ io.use((socket, next) => {
         return "Token de autenticação não fornecido.";
     }
 
-    // Verifique e decodifique o token JWT
+    // Verifica token JWT
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
         if (err) {
             return console.log("Token de autenticação inválido.");
         }
-
-        // Anexar informações do usuário decodificadas ao objeto de conexão do socket
         socket.user = decoded;
         next();
     });
 });
 
+// eventos 
 io.on("connection", (socket) => {
     console.log("Usuario conectadado", socket.id);
 
@@ -69,7 +68,20 @@ io.on("connection", (socket) => {
     socket.on("set_emailUser", (userEmail) => {
         socket.data.userEmail = userEmail;
     });
+
+    socket.on( "message", text => {
+        
+        io.emit( "receive_message", {
+            text,
+            authorId: socket.id,
+            author: socket.data.userEmail
+        })
+    })
+
 });
+
+
+
 
 app.use(expressSanitizer());
 app.use(
