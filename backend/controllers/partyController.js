@@ -1,6 +1,4 @@
 const { Party } = require("../models/Party");
-const consumer = require("../queue/consumer");
-const amqp = require("amqplib");
 
 const partyController = {
     create: async (req, res) => {
