@@ -2,3 +2,4 @@ node_modules
 key_pair
 .env
 logs
+README.txt
