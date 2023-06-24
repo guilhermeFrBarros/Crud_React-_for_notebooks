@@ -1,19 +1,18 @@
 const { Party } = require("../models/Party");
-const { User } = require("../models/User");
-const consumer = require("../queue/consumer");
-const amqp = require("amqplib");
-const mail = require("../mail/index");
-
-const queueName = "email_queue";
 
 const partyController = {
     create: async (req, res) => {
+        const title = req.sanitize(req.body.title);
+        const author = req.sanitize(req.body.author);
+        const description = req.sanitize(req.body.description);
+        const budget = req.sanitize(req.body.budget);
+
         try {
             const party = {
-                title: req.body.title,
-                author: req.body.author,
-                description: req.body.description,
-                budget: req.body.budget,
+                title: title,
+                author: author,
+                description: description,
+                budget: budget,
             };
             const response = await Party.create(party);
 
@@ -27,6 +26,7 @@ const partyController = {
         }
     },
     getAll: async (req, res) => {
+        req.sanitize();
         try {
             const parties = await Party.find();
 
@@ -41,7 +41,7 @@ const partyController = {
             // ToDo -> Paginação
             // mudar para POST e passar no body: title: {string}, limit: {number}, skip: {number},
 
-            const title = req.params.title;
+            const title = req.sanitize(req.params.title);
             // i = ignore caseSensitive
             const partie = await Party.find({
                 title: { $regex: title, $options: "i" },
@@ -62,7 +62,7 @@ const partyController = {
     },
     delete: async (req, res) => {
         try {
-            const id = req.params.id;
+            const id = req.sanitize(req.params.id);
             const party = await Party.findById(id);
 
             if (!party) {
@@ -78,17 +78,25 @@ const partyController = {
                 msg: "Festa deletada com sucesso.",
             });
         } catch (error) {
+            res.status(400).json({
+                msg: "ID inválido.",
+            });
             console.log(`Erro: ${error}`);
         }
     },
     update: async (req, res) => {
         try {
-            const id = req.params.id;
+            const id = req.sanitize(req.params.id);
+            const title = req.sanitize(req.body.title);
+            const author = req.sanitize(req.body.author);
+            const description = req.sanitize(req.body.description);
+            const budget = req.sanitize(req.body.budget);
+
             const party = {
-                title: req.body.title,
-                author: req.body.author,
-                description: req.body.description,
-                budget: req.body.budget,
+                title: title,
+                author: author,
+                description: description,
+                budget: budget,
             };
 
             const response = await Party.findByIdAndUpdate(id, party, {
