@@ -1,6 +1,10 @@
-const { Party } = require('../models/Party');
-const { User } = require('../models/User');
-const mail = require('../mail/index');
+const { Party } = require("../models/Party");
+const { User } = require("../models/User");
+const consumer = require("../queue/consumer");
+const amqp = require("amqplib");
+
+
+const queueName = "email_queue";
 
 const partyController = {
     create: async (req, res) => {
@@ -10,15 +14,14 @@ const partyController = {
                 author: req.body.author,
                 description: req.body.description,
                 budget: req.body.budget,
-            }
+            };
             const response = await Party.create(party);
 
-            const users = await User.find({});
-            
-            mail.sendEmail(users);
-            
             console.log("Consultou o banco! POST");
-            res.status(201).json({ response, msg: "Festa criada com sucesso." });
+            res.status(201).json({
+                response,
+                msg: "Festa criada com sucesso.",
+            });
         } catch (error) {
             console.log(`Erro: ${error}`);
         }
@@ -40,7 +43,9 @@ const partyController = {
 
             const title = req.params.title;
             // i = ignore caseSensitive
-            const partie = await Party.find({ title: { $regex: title, $options: 'i' } })
+            const partie = await Party.find({
+                title: { $regex: title, $options: "i" },
+            })
                 .limit(30)
                 .skip(0);
 
@@ -68,7 +73,10 @@ const partyController = {
             const deletedParty = await Party.findByIdAndDelete(id);
 
             console.log("Consultou o banco! DELETE");
-            res.status(200).json({ deletedParty, msg: "Festa deletada com sucesso." });
+            res.status(200).json({
+                deletedParty,
+                msg: "Festa deletada com sucesso.",
+            });
         } catch (error) {
             console.log(`Erro: ${error}`);
         }
@@ -81,9 +89,11 @@ const partyController = {
                 author: req.body.author,
                 description: req.body.description,
                 budget: req.body.budget,
-            }
+            };
 
-            const response = await Party.findByIdAndUpdate(id, party, { new: true });
+            const response = await Party.findByIdAndUpdate(id, party, {
+                new: true,
+            });
 
             if (!response) {
                 res.status(404).json({ msg: "Festa não encontrada." });
@@ -91,11 +101,14 @@ const partyController = {
             }
 
             console.log("Consultou o banco! UPDATE");
-            res.status(200).json({ response, msg: "Festa atualizada com sucesso." });
+            res.status(200).json({
+                response,
+                msg: "Festa atualizada com sucesso.",
+            });
         } catch (error) {
             console.log(`Erro: ${error}`);
         }
-    }
+    },
 };
 
 module.exports = partyController;
