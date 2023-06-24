@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import "./ChatPage.css";
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import { useContext } from "react";
 
 import { SocketContext } from "../../../context/SocketContext";
@@ -14,19 +14,26 @@ export default () => {
   let emailDoUsuario = localStorage.getItem("email");
   console.log(emailDoUsuario);
 
-  const { SocketChat, setSocketChat} = useContext(SocketContext);
-
+  const { socketChat, setSocketChat} = useContext(SocketContext);
+  let socket;
   const conectSocket = async () => {
-    const socket = await io.connect("https://localhost:3000", {
+     socket = await io.connect("https://localhost:3000", {
       auth: {
         token: localStorage.getItem("token")
       }
     });
     socket.emit("set_emailUser", emailDoUsuario);
+    console.log('chatPage: '+ socket)
+    setSocketChat(socket);
+    
+    
+
   };
 
   useEffect(() => {
+    
     conectSocket();
+    
   }, []);
 
   return (
