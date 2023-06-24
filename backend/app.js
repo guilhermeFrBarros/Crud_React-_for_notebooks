@@ -3,39 +3,64 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+// ----------
+const fs = require("fs");
+const https = require("https");
 
-//socket.io http
+
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { User } = require("./models/User");
+
+const httpsOptions = {
+  cert: fs.readFileSync("./SSL/certificado.crt"),
+  key: fs.readFileSync("./SSL/chave_privada.key"),
+};
+const httpsServer = https.createServer(httpsOptions, app);
+
+httpsServer.listen(3000, () => {
+  console.log("======== SERVIDOR HTTPS ONLINE ========");
+  conn();
+});
+
+// Sockets
 const ServerHttpIo = require("socket.io").Server;
-const { createServer } = require("http");
-const httpServer = createServer(app);
-const io = new ServerHttpIo(httpServer, {
+const io = new ServerHttpIo(httpsServer, {
   cors: { origin: "http://localhost:5173" },
 });
 
-const PORT = 3008;
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  console.log(token);
+  if (!token) {
+    return next(new Error("Token de autenticação não fornecido."));
+  }
+
+  // Verifique e decodifique o token JWT
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return console.log(("Token de autenticação inválido."));
+    }
+
+    // Anexar informações do usuário decodificadas ao objeto de conexão do socket
+    socket.user = decoded;
+    next();
+  });
+});
 
 io.on("connection", (socket) => {
   console.log("Usuario conectadado", socket.id);
 
-  socket.on('disconnect', reason => {
-    console.log('Usuario Desconectado', socket.id);
+  socket.on("disconnect", (reason) => {
+    console.log("Usuario Desconectado", socket.id);
   });
-  
+
   socket.on("set_emailUser", (userEmail) => {
     socket.data.userEmail = userEmail;
   });
 });
- 
-httpServer.listen(PORT, () =>
-  console.log(" ====== Server web socket running  ===")
-);
-
-// ----------
-const fs = require("fs");
-const https = require("https");
-const server = https.createServer(app);
-
-app.use(express.json());
 
 // DB Connection
 const conn = require("./db/conn");
@@ -44,12 +69,7 @@ const conn = require("./db/conn");
 const routes = require("./routes/router");
 app.use("/api", routes);
 
-// LOGIN
-require("dotenv").config();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { User } = require("./models/User");
-const { Socket } = require("socket.io");
+
 
 // Registro de Usuário
 app.post("/users", async (req, res) => {
@@ -151,17 +171,7 @@ app.post("/session", async (req, res) => {
   }
 });
 
-
-app.listen(3000, function () {
-    console.log(" ======== SERVIDOR ONLINE ======== ");
-    conn();
-});
-
-// https.createServer({
-//     cert: fs.readFileSync('./SSL/certificado.crt'),
-//     key: fs.readFileSync('./SSL/chave_privada.key')
-// }, app).listen(3000, () => {
-//     console.log("======== SERVIDOR HTTPS ONLINE ========");
-//     conn();
+// app.listen(3000, function () {
+//   console.log(" ======== SERVIDOR ONLINE ======== ");
+//   conn();
 // });
-

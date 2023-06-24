@@ -17,7 +17,11 @@ export default () => {
   const { SocketChat, setSocketChat} = useContext(SocketContext);
 
   const conectSocket = async () => {
-    const socket = await io.connect("http://localhost:3008");
+    const socket = await io.connect("https://localhost:3000", {
+      auth: {
+        token: localStorage.getItem("token")
+      }
+    });
     socket.emit("set_emailUser", emailDoUsuario);
   };
 
