@@ -8,7 +8,7 @@ import { SocketContext } from "../../../context/SocketContext";
 
 import Main from "../../template/MainComp";
 import Chat from "./components/chatComponent/Chat";
-import Label from "./components/join/Label";
+import Label from "./components/label/Label";
 
 export default () => {
   let emailDoUsuario = localStorage.getItem("email");

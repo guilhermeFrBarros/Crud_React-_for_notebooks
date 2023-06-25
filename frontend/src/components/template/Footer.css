@@ -6,3 +6,8 @@ footer.footer {
     background-color: rgb(251, 251, 251);
     box-shadow: var(--shadow);
 }
+
+
+.footer .footer-conteudo {
+    margin-right: 4%;
+}

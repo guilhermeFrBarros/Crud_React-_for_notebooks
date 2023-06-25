@@ -9,7 +9,7 @@ export default function Label(props) {
 
   return (
     <div>
-      <h1>{usuario}</h1>
+      <h1>Bem vindo {usuario}</h1>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
 import { SocketContext } from "../../../../../context/SocketContext";
+import "../chatComponent/Chat.css";
 
 export default function Chat(props) {
   const messageRef = useRef();
@@ -7,45 +8,67 @@ export default function Chat(props) {
   const { socketChat } = useContext(SocketContext);
 
   useEffect(() => {
-    if(socketChat) {
-        console.log(socketChat)
-        socketChat.on("receive_message", (data) => {
-          setMessageList((prevState) => [...prevState, data]);
-        });
-    
-        return () => socketChat.off("receive_message");
+    if (socketChat) {
+      console.log(socketChat);
+      socketChat.on("receive_message", (data) => {
+        setMessageList((prevState) => [...prevState, data]);
+      });
 
+      return () => socketChat.off("receive_message");
     }
   }, [socketChat]);
 
-    const handleSubmit = () => {
-        console.log("CHAMOU")
-      const message = messageRef.current.value;
-      if (!message.trim()) return;
+  function handleKeyPress(e) {
+    const message = messageRef.current.value;
+    if (e.key === "Enter" && message.trim()) {
+      handleSubmit();
+    } else if (e.key === "Enter") {
+      messageRef.current.placeholder = "Digite algo antes de enviar...";
+    }
+  }
 
-      socketChat.emit("message", message);
-      clearInput();
-    };
+  const handleSubmit = () => {
+    console.log("CHAMOU");
+    const message = messageRef.current.value;
+    if (!message.trim()) {
+      messageRef.current.placeholder = "Digite algo antes de enviar...";
+      return;
+    }
 
-    const clearInput = () => {
-      messageRef.current.value = "";
-    };
+    socketChat.emit("message", message);
+    clearInput();
+  };
+
+  const clearInput = () => {
+    messageRef.current.value = "";
+    messageRef.current.placeholder = "Mensagem";
+  };
 
   return (
-    <div>
+    <div className="chatComponent">
       <h1>Chat</h1>
-      {messageList.map((message, index) => (
-        <p key={index}>
-          {message.author}: {message.text}
-        </p>
-      ))}
+      <div className="templadeChat">
+        {messageList.map((message, index) => (
+          <div key={index} className="mensagem-chat">
+            <p >
+              {message.author}:
+            </p>
+            <p>
+            -  {message.text}
+            </p>
+          </div>
+        ))}
+      </div>
       <input
         type="text"
+        className="chat-input"
         ref={messageRef}
+        onKeyUp={handleKeyPress}
         placeholder="Mensagem"
-        
       />
-      <button onClick={() => handleSubmit()}>Eniviar</button>
+      <button className="button" onClick={() => handleSubmit()}>
+        Eniviar
+      </button>
     </div>
   );
 }

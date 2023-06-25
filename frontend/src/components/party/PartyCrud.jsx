@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext } from "react";
 import Main from "../template/MainComp";
+import { SocketContext } from "../../context/SocketContext";
 
 //import axios from "axios";
 import axios from "axios";
@@ -29,6 +30,8 @@ const PartyCrud = () => {
     const [erroSanitizer, setErroSanitizer] = useState(false);
     const [msgSucessful, setMsgSucessfull] = useState(false);
 
+    const { socketChat } = useContext(SocketContext);
+
     useEffect(() => {
         // configurando url e o token de acesso
         axios.defaults.baseURL = baseUrl; // sua URL base
@@ -48,6 +51,14 @@ const PartyCrud = () => {
                     console.error(error);
                 }
             });
+
+    
+        if(socketChat){
+            socketChat.disconnect()
+
+        }
+    
+
     }, [busca]);
 
     const clear = () => {
