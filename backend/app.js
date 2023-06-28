@@ -29,7 +29,7 @@ const httpsOptions = {
 };
 const httpsServer = https.createServer(httpsOptions, app);
 
-httpsServer.listen(3000, () => {
+httpsServer.listen(3001, () => {
     console.log("======== SERVIDOR HTTPS ONLINE ========");
     conn();
 });
@@ -57,7 +57,7 @@ io.use((socket, next) => {
     });
 });
 
-// eventos 
+// eventos
 io.on("connection", (socket) => {
     console.log("Usuario conectadado", socket.id);
 
@@ -69,19 +69,14 @@ io.on("connection", (socket) => {
         socket.data.userEmail = userEmail;
     });
 
-    socket.on( "message", text => {
-        
-        io.emit( "receive_message", {
+    socket.on("message", (text) => {
+        io.emit("receive_message", {
             text,
             authorId: socket.id,
-            author: socket.data.userEmail
-        })
-    })
-
+            author: socket.data.userEmail,
+        });
+    });
 });
-
-
-
 
 app.use(expressSanitizer());
 app.use(
